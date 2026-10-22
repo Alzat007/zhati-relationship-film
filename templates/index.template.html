@@ -1,0 +1,1224 @@
+<!doctype html>
+<!-- REFERENCE TEMPLATE: replace every text slot (see references/text-slots.md) and the audio before shipping. Do not reuse the old narration. -->
+<html lang="zh-CN" data-composition-variables='[
+  {"id":"filmTitle","type":"string","label":"片名","default":"为什么有些好人，会和错的人交往？"},
+  {"id":"kicker","type":"string","label":"英文眉题","default":"ON KINDNESS & LOVE"},
+  {"id":"ink","type":"color","label":"银幕米白","default":"#efe6d6"},
+  {"id":"amber","type":"color","label":"暖琥珀","default":"#c9955a"},
+  {"id":"oxblood","type":"color","label":"警示酒红","default":"#8e3f32"},
+  {"id":"black","type":"color","label":"放映机黑","default":"#0b0907"}
+]'>
+<head>
+<meta charset="utf-8">
+<title>为什么有些好人，会和错的人交往？</title>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/om.js"></script>
+<style>
+@font-face { font-family:"Noto Sans SC"; src:url("assets/fonts/NotoSansSC-500.woff") format("woff"); font-weight:500; font-style:normal; }
+@font-face { font-family:"Noto Sans SC"; src:url("assets/fonts/NotoSansSC-700.woff") format("woff"); font-weight:700; font-style:normal; }
+@font-face { font-family:"Noto Sans SC"; src:url("assets/fonts/NotoSansSC-900.woff") format("woff"); font-weight:900; font-style:normal; }
+@font-face { font-family:"LXGW WenKai"; src:url("assets/fonts/LXGWWenKai-500.woff") format("woff"); font-weight:500; font-style:normal; }
+@font-face { font-family:"EB Garamond"; src:url("assets/fonts/EBGaramond-400.woff") format("woff"); font-weight:400; font-style:normal; }
+@font-face { font-family:"EB Garamond"; src:url("assets/fonts/EBGaramond-400i.woff") format("woff"); font-weight:400; font-style:italic; }
+
+:root{
+  --ink:#efe6d6;
+  --amber:#c9955a;
+  --oxblood:#8e3f32;
+  --black:#0b0907;
+  --muted:#a59a89;
+  --hair:rgba(239,230,214,.32);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
+#film{
+  position:relative;width:100%;height:100%;overflow:hidden;
+  background:var(--black);color:var(--ink);
+  font-family:"PingFang SC","Noto Sans SC",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+.serif{font-family:"Songti SC","STSong","Noto Serif SC",serif;font-weight:400;}
+.latin{font-family:"EB Garamond",serif;}
+.sans{font-family:"PingFang SC","Noto Sans SC",sans-serif;}
+
+/* ---------- film base ---------- */
+#filmbase{position:absolute;inset:0;overflow:hidden;background:#050403;}
+.clip{position:absolute;inset:-3%;opacity:0;visibility:hidden;will-change:transform,opacity;transform-origin:50% 48%;}
+.clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(.74) sepia(.10);}
+.clip.c1 video{object-position:50% 32%;}
+.clip.c2 video{object-position:50% 42%;filter:grayscale(1) contrast(1.04) brightness(.5) sepia(.08) blur(4px);}
+.clip.c3 video{object-position:50% 32%;filter:grayscale(1) contrast(1.04) brightness(.5) sepia(.08) blur(4px);}
+.clip.c4 video{object-position:50% 38%;}
+.clip.c5 video{object-position:50% 34%;filter:grayscale(1) contrast(1.05) brightness(.55) sepia(.1) blur(2px);}
+.clip.c6 video{object-position:50% 44%;filter:grayscale(1) contrast(1.08) brightness(.84) sepia(.08);}
+.clip.c7 video{object-position:50% 38%;filter:grayscale(1) contrast(1.04) brightness(.5) sepia(.08) blur(4px);}
+.clip.c8 video{object-position:50% 34%;filter:grayscale(1) contrast(1.04) brightness(.5) sepia(.08) blur(4px);}
+.clip.c9 video{object-position:50% 40%;}
+.clip.c10 video{object-position:50% 36%;}
+.clip.c11 video{object-position:50% 36%;}
+.clip.c2 video,.clip.c3 video,.clip.c7 video,.clip.c8 video{filter:grayscale(1) contrast(1.04) brightness(.5) sepia(.08) blur(4px);}
+.clip.c5 video{filter:grayscale(1) contrast(1.05) brightness(.55) sepia(.1) blur(2px);}
+.grade{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 120% 85% at 50% 42%, rgba(0,0,0,0) 22%, rgba(4,3,2,.54) 76%, rgba(3,2,2,.84) 100%),
+    linear-gradient(180deg, rgba(4,3,2,.7) 0%, rgba(4,3,2,.12) 34%, rgba(4,3,2,.36) 68%, rgba(3,2,2,.82) 100%);
+}
+#rainCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9;}
+#blackout{position:absolute;inset:0;background:#050403;opacity:0;pointer-events:none;}
+#flicker{position:absolute;inset:0;background:#fff7e9;opacity:.022;mix-blend-mode:screen;pointer-events:none;}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.12;mix-blend-mode:overlay;
+  background-image:url("assets/textures/grain.png");background-size:920px 518px;background-repeat:repeat;}
+.vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 85% 75% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%);}
+.scratches{position:absolute;inset:0;pointer-events:none;opacity:.5;}
+.scratches i{position:absolute;top:-2%;height:104%;width:1px;background:linear-gradient(180deg,transparent,rgba(255,246,228,.14),transparent);}
+.scratches i:nth-child(1){left:23.4%;}
+.scratches i:nth-child(2){left:61.8%;opacity:.6;}
+.scratches i:nth-child(3){left:82.1%;opacity:.35;}
+
+#content{position:absolute;inset:0;overflow:hidden;}
+.sceneScrim{position:absolute;inset:0;pointer-events:none;}
+.sceneScrim.left{background:linear-gradient(90deg,rgba(5,4,3,.9) 0%,rgba(5,4,3,.72) 38%,rgba(5,4,3,.2) 68%,transparent 100%);}
+.sceneScrim.right{background:linear-gradient(90deg,transparent 12%,rgba(5,4,3,.42) 38%,rgba(5,4,3,.9) 60%,rgba(5,4,3,.97) 100%);}
+.sceneScrim.soft{background:linear-gradient(90deg,rgba(5,4,3,.62),rgba(5,4,3,.18) 45%,transparent 100%);}
+.sceneScrim.soft-left{background:linear-gradient(90deg,rgba(5,4,3,.62) 0%,rgba(5,4,3,.3) 55%,transparent 100%);}
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;}
+.line{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.04em;}
+.line > span{display:block;will-change:transform;}
+.kicker{font-family:"EB Garamond",serif;font-style:italic;letter-spacing:.26em;font-size:19px;color:rgba(239,230,214,.62);}
+.hairline{height:1px;background:var(--hair);transform-origin:0 50%;}
+.amber{color:var(--amber);}
+.muted{color:var(--muted);}
+.oxblood{color:var(--oxblood);}
+
+/* ---------- hook ---------- */
+#hook{z-index:20;}
+#hook .slug{position:absolute;left:138px;top:206px;display:flex;align-items:baseline;gap:26px;}
+#hook .slug .cn{font-size:20px;letter-spacing:.34em;color:rgba(239,230,214,.66);}
+#hook .slug .en{font-family:"EB Garamond",serif;font-style:italic;letter-spacing:.22em;font-size:17px;color:rgba(239,230,214,.45);}
+#hook .hookTitle{position:absolute;left:132px;top:266px;width:1520px;font-family:"Songti SC","STSong",serif;font-weight:400;font-size:118px;line-height:1.16;letter-spacing:2px;text-shadow:0 3px 38px rgba(0,0,0,.55);}
+#hook .hookTitle .em{color:var(--amber);}
+.hookRule{position:absolute;left:138px;top:606px;width:640px;height:1px;background:linear-gradient(90deg,var(--amber),rgba(201,149,90,0));transform-origin:0 50%;}
+.hookMeta{position:absolute;left:140px;top:638px;font-size:20px;letter-spacing:.14em;color:rgba(239,230,214,.58);}
+.hookSide{position:absolute;right:94px;top:300px;width:150px;text-align:right;font-family:"EB Garamond",serif;font-style:italic;font-size:15px;line-height:1.7;letter-spacing:.12em;color:rgba(239,230,214,.34);}
+
+/* ---------- story text ---------- */
+#rainStory{z-index:18;}
+.storyText{position:absolute;left:130px;top:244px;width:720px;}
+.storyKicker{font-size:16px;letter-spacing:.28em;color:rgba(201,149,90,.82);margin-bottom:34px;}
+.storyBlock{position:absolute;left:0;top:76px;width:720px;opacity:0;visibility:hidden;}
+.storyBlock .big{font-family:"Songti SC","STSong",serif;font-size:76px;line-height:1.26;letter-spacing:1px;text-shadow:0 3px 30px rgba(0,0,0,.55);}
+.storyBlock .sub{font-size:40px;line-height:1.5;color:rgba(239,230,214,.8);margin-top:22px;}
+.storyBlock .tiny{font-size:18px;letter-spacing:.16em;color:rgba(239,230,214,.45);margin-top:30px;}
+
+/* ---------- rain scene ---------- */
+#rainScene{position:absolute;left:760px;top:128px;width:1000px;height:800px;opacity:0;visibility:hidden;z-index:14;will-change:transform,opacity;overflow:visible;}
+#rainScene svg{width:100%;height:100%;overflow:visible;}
+#umb{transform-origin:500px 560px;}
+#canopy{fill:rgba(10,9,8,.86);stroke:rgba(239,230,214,.92);stroke-width:3.4;}
+.rib{stroke:rgba(239,230,214,.58);stroke-width:1.8;fill:none;}
+.shaft{stroke:rgba(239,230,214,.92);stroke-width:3.8;fill:none;stroke-linecap:round;}
+.handle{stroke:rgba(239,230,214,.92);stroke-width:3.8;fill:none;stroke-linecap:round;}
+.fig{fill:#060504;opacity:.97;}
+.fig path,.fig circle{stroke:rgba(239,230,214,.13);stroke-width:1.1;}
+.rim{fill:none;stroke:rgba(201,149,90,.3);stroke-width:1.5;}
+.wet{fill:rgba(52,68,73,.24);opacity:0;}
+.drip{stroke:rgba(150,174,181,.6);stroke-width:1.2;fill:none;opacity:0;}
+.groundGlow{fill:url(#warmGlow);opacity:.42;}
+#dryhalf{position:absolute;left:1010px;top:128px;width:540px;height:800px;z-index:15;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg, rgba(201,149,90,0) 0%, rgba(201,149,90,.07) 55%, rgba(239,230,214,.11) 100%);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 45%,#000 100%);}
+#selfLight{position:absolute;left:1260px;top:792px;width:260px;height:58px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,149,90,.42),rgba(201,149,90,0) 70%);opacity:0;z-index:16;filter:blur(2px);}
+
+/* ---------- fiction ---------- */
+#fiction{z-index:19;}
+.fictionWrap{position:absolute;left:140px;top:420px;width:1100px;}
+.fictionLabel{font-family:"Songti SC","STSong",serif;font-size:74px;letter-spacing:1px;}
+.fictionSub{font-family:"EB Garamond",serif;font-style:italic;font-size:17px;letter-spacing:.28em;color:rgba(239,230,214,.45);margin-top:30px;}
+.fictionRule{width:280px;height:1px;background:var(--hair);margin-top:34px;transform-origin:0 50%;}
+
+/* ---------- distinction ---------- */
+#distinction{z-index:20;}
+.frames{position:absolute;inset:0;}
+.frame{position:absolute;top:198px;width:624px;height:438px;opacity:0;visibility:hidden;will-change:transform,opacity;}
+.frame .mat{position:absolute;inset:0;border:1px solid rgba(239,230,214,.45);padding:10px;background:rgba(5,4,3,.22);box-shadow:0 28px 80px rgba(0,0,0,.38);}
+.frame .mat .ph{position:relative;width:100%;height:100%;overflow:hidden;background:#111;}
+.frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.08) brightness(.78) sepia(.08);}
+.frame .tag{position:absolute;left:0;top:-34px;font-family:"EB Garamond",serif;font-style:italic;font-size:15px;letter-spacing:.22em;color:rgba(239,230,214,.55);}
+.frame .label{position:absolute;left:0;bottom:-132px;width:100%;}
+.frame .label .zh{font-family:"Songti SC","STSong",serif;font-size:64px;letter-spacing:2px;line-height:1.2;}
+.frame .label .en{font-family:"EB Garamond",serif;font-style:italic;font-size:16px;letter-spacing:.22em;color:rgba(201,149,90,.8);margin-top:6px;}
+.frame .label .cap{font-size:28px;color:rgba(239,230,214,.72);margin-top:10px;}
+#frameKind{left:150px;transform:rotate(-1.6deg);}
+#frameFit{right:150px;transform:rotate(1.6deg);}
+#notSameBg{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(5,4,3,.1) 0%,rgba(5,4,3,.78) 24%,rgba(5,4,3,.9) 62%,rgba(5,4,3,.4) 100%);opacity:0;}
+#notSame{position:absolute;left:0;top:342px;width:100%;text-align:center;opacity:0;visibility:hidden;z-index:4;text-shadow:0 8px 50px rgba(0,0,0,.8);}
+#notSame .big{font-family:"Songti SC","STSong",serif;font-size:132px;line-height:1.18;letter-spacing:4px;color:#f4ecdd;}
+#notSame .small{font-family:"EB Garamond",serif;font-style:italic;font-size:18px;letter-spacing:.38em;color:rgba(239,230,214,.5);margin-top:26px;}
+#crack{position:absolute;left:959px;top:150px;width:1px;height:790px;background:linear-gradient(180deg,transparent,rgba(201,149,90,.6) 18%,rgba(239,230,214,.38) 52%,rgba(201,149,90,.5) 84%,transparent);transform-origin:50% 0;opacity:0;z-index:5;}
+
+/* ---------- aristotle ---------- */
+#aristotle{z-index:18;}
+#ariPortrait{position:absolute;left:132px;top:196px;width:270px;height:270px;border-radius:50%;overflow:hidden;border:1px solid rgba(239,230,214,.4);opacity:0;visibility:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+#ariPortrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05) brightness(.64) sepia(.12);transform:scale(1.08);}
+.ariCaption{position:absolute;left:132px;top:512px;width:320px;}
+.ariCaption .zh{font-family:"Songti SC","STSong",serif;font-size:34px;letter-spacing:3px;}
+.ariCaption .en{font-family:"EB Garamond",serif;font-style:italic;font-size:16px;letter-spacing:.12em;color:rgba(239,230,214,.58);margin-top:10px;line-height:1.6;}
+#reciprocity{position:absolute;left:560px;top:158px;width:1220px;height:540px;opacity:0;visibility:hidden;}
+#reciprocity .diagramTitle{position:absolute;left:40px;top:0;font-size:16px;letter-spacing:.26em;color:rgba(201,149,90,.85);}
+.recFrame{position:absolute;top:82px;width:300px;height:226px;border:1px solid rgba(239,230,214,.32);padding:7px;background:rgba(0,0,0,.18);opacity:0;visibility:hidden;}
+.recFrame img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.72) contrast(1.06);}
+#recL{left:54px;}
+#recR{left:566px;}
+.recLabel{position:absolute;bottom:-48px;width:100%;text-align:center;font-size:19px;letter-spacing:.12em;color:rgba(239,230,214,.6);}
+#recArrows{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;}
+#recArrows path{fill:none;stroke:rgba(201,149,90,.78);stroke-width:2;stroke-linecap:round;}
+#recArrows text{fill:rgba(239,230,214,.55);font-size:16px;font-family:"EB Garamond",serif;font-style:italic;letter-spacing:.12em;}
+.recNote{position:absolute;left:54px;top:392px;width:812px;font-size:22px;line-height:1.8;color:rgba(239,230,214,.54);}
+.ariLine{position:absolute;left:132px;top:730px;width:1630px;font-family:"Songti SC","STSong",serif;font-size:54px;line-height:1.6;letter-spacing:1px;}
+.ariLine .em{color:var(--amber);}
+
+/* ---------- limit ---------- */
+#limit{z-index:19;}
+.limitText{position:absolute;left:1130px;top:250px;width:750px;}
+.limitText .small{font-family:"EB Garamond",serif;font-style:italic;font-size:16px;letter-spacing:.24em;color:rgba(239,230,214,.45);margin-bottom:28px;}
+.limitText .ln{font-family:"Songti SC","STSong",serif;font-size:58px;line-height:1.62;letter-spacing:1px;}
+.limitText .ln .dim{color:rgba(239,230,214,.68);}
+.limitRule{width:220px;height:1px;background:var(--hair);margin-top:40px;transform-origin:0 50%;}
+
+/* ---------- question ---------- */
+#question{z-index:21;}
+#qSmallFrame{position:absolute;left:760px;top:300px;width:400px;height:272px;border:1px solid rgba(239,230,214,.22);padding:7px;opacity:0;visibility:hidden;}
+#qSmallFrame img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.55) contrast(1.1);}
+#qText{position:absolute;left:0;top:196px;width:100%;text-align:center;text-shadow:0 4px 34px rgba(0,0,0,.7);}
+#qText .pre{font-size:30px;letter-spacing:.2em;color:rgba(239,230,214,.55);margin-bottom:31px;}
+#qText .big{font-family:"Songti SC","STSong",serif;font-size:66px;line-height:1.52;letter-spacing:1px;}
+#qRule{position:absolute;left:890px;top:636px;width:140px;height:1px;background:rgba(201,149,90,.6);transform-origin:50% 50%;}
+
+/* ---------- freud ---------- */
+#freud{z-index:22;}
+#freudCard{position:absolute;left:132px;top:136px;width:548px;height:790px;opacity:0;visibility:hidden;will-change:transform,opacity;}
+#freudCard .cardMat{position:absolute;inset:0;background:#15110d;border:1px solid rgba(239,230,214,.4);padding:14px;box-shadow:0 34px 90px rgba(0,0,0,.55);}
+#freudCard .photo{position:absolute;inset:14px;overflow:hidden;background:#1c1712;}
+#freudCard img{width:100%;height:100%;object-fit:cover;object-position:50% 26%;filter:grayscale(.82) sepia(.18) contrast(1.06) brightness(.92);}
+#freudCard .cardCap{position:absolute;left:18px;bottom:18px;padding:8px 11px;background:rgba(5,4,3,.72);font-family:"EB Garamond",serif;font-size:14px;line-height:1.6;color:rgba(239,230,214,.72);letter-spacing:.04em;}
+#freudSweep{position:absolute;left:0;top:0;width:280px;height:100%;background:linear-gradient(90deg,rgba(255,243,218,0) 0%,rgba(255,243,218,.16) 45%,rgba(255,243,218,0) 100%);mix-blend-mode:screen;opacity:.8;filter:blur(8px);}
+#freudText{position:absolute;left:760px;top:190px;width:970px;opacity:0;visibility:hidden;}
+#freudText .tag{font-size:16px;letter-spacing:.28em;color:rgba(201,149,90,.9);margin-bottom:20px;}
+#freudText .name{font-family:"Songti SC","STSong",serif;font-size:94px;letter-spacing:6px;line-height:1.1;}
+#freudText .nameEn{font-family:"EB Garamond",serif;font-style:italic;font-size:20px;letter-spacing:.18em;color:rgba(239,230,214,.45);margin-top:12px;}
+#freudText .body{font-size:48px;line-height:1.72;margin-top:46px;color:rgba(239,230,214,.9);}
+#freudText .body .em{color:var(--amber);}
+#freudStamp{position:absolute;left:770px;top:780px;padding:12px 18px 10px;border:1px solid rgba(201,149,90,.5);color:rgba(201,149,90,.86);font-size:18px;letter-spacing:.18em;transform:rotate(-4deg);opacity:0;}
+#loopWrap{position:absolute;left:1050px;top:118px;width:760px;height:760px;opacity:0;visibility:hidden;}
+#loopTitle{position:absolute;left:0;top:0;width:100%;font-family:"Songti SC","STSong",serif;font-size:34px;line-height:1.5;letter-spacing:1px;text-align:center;}
+#loopRing{position:absolute;left:0;top:104px;width:760px;height:700px;overflow:visible;}
+#loopRing .ring{fill:none;stroke:rgba(239,230,214,.26);stroke-width:1;stroke-dasharray:3 9;}
+#loopRing .ringWarm{fill:none;stroke:rgba(201,149,90,.45);stroke-width:1.2;stroke-dasharray:1 11;}
+#loopRing .orbitDot{fill:var(--amber);}
+.loopCard{position:absolute;width:186px;height:140px;padding:5px;background:#0b0907;border:1px solid rgba(239,230,214,.3);box-shadow:0 16px 40px rgba(0,0,0,.45);}
+.loopCard img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.75) contrast(1.08);}
+.loopCard .num{position:absolute;left:8px;top:-25px;font-family:"EB Garamond",serif;font-style:italic;font-size:14px;letter-spacing:.16em;color:rgba(239,230,214,.45);}
+#loopC1{left:287px;top:146px;transform:rotate(-2deg);}
+#loopC2{left:536px;top:396px;transform:rotate(2deg);}
+#loopC3{left:70px;top:466px;transform:rotate(-1deg);}
+#loopCenter{position:absolute;left:220px;top:388px;width:320px;text-align:center;font-size:15px;letter-spacing:.16em;line-height:1.9;color:rgba(239,230,214,.5);}
+#patternText{position:absolute;left:132px;top:610px;width:850px;opacity:0;visibility:hidden;}
+#patternText .l1{font-family:"Songti SC","STSong",serif;font-size:44px;line-height:1.62;color:rgba(239,230,214,.88);}
+#patternText .l2{font-size:24px;line-height:1.8;color:rgba(239,230,214,.5);margin-top:14px;}
+
+/* ---------- coldness ---------- */
+#coldness{z-index:21;}
+#coldLead{position:absolute;left:132px;top:188px;width:900px;}
+#coldLead .a{font-size:34px;letter-spacing:.1em;color:rgba(239,230,214,.62);}
+#coldLead .b{font-size:34px;letter-spacing:.1em;color:rgba(239,230,214,.62);margin-top:8px;}
+#choiceNot{position:absolute;left:132px;top:348px;width:1200px;font-family:"Songti SC","STSong",serif;font-size:58px;letter-spacing:1px;color:rgba(239,230,214,.35);opacity:0;visibility:hidden;}
+#strikeNot{position:absolute;left:126px;top:400px;width:720px;height:2px;background:var(--oxblood);transform-origin:0 50%;opacity:.8;}
+#choiceIs{position:absolute;left:132px;top:470px;width:1500px;font-family:"Songti SC","STSong",serif;font-size:86px;line-height:1.4;letter-spacing:2px;color:#f3ebdc;opacity:0;visibility:hidden;text-shadow:0 4px 40px rgba(0,0,0,.7);}
+#choiceGhost{position:absolute;left:132px;top:470px;width:1500px;font-family:"Songti SC","STSong",serif;font-size:86px;line-height:1.4;letter-spacing:2px;color:rgba(239,230,214,.12);opacity:0;visibility:hidden;filter:blur(1px);}
+
+/* ---------- turn ---------- */
+#turn{z-index:24;}
+#turn .wrap{position:absolute;left:132px;top:216px;width:1620px;}
+#turnExplain{font-family:"Songti SC","STSong",serif;font-size:64px;line-height:1.5;letter-spacing:1px;color:rgba(239,230,214,.9);}
+#turnMore{font-size:28px;letter-spacing:.24em;color:rgba(201,149,90,.9);margin-top:38px;opacity:0;}
+#turnQuote{font-family:"Songti SC","STSong",serif;font-size:92px;line-height:1.5;letter-spacing:2px;margin-top:44px;color:#f4ecdd;opacity:0;}
+#turnQuote .target{position:relative;display:inline-block;}
+#turnStrike{position:absolute;left:-4px;right:-4px;top:56%;height:5px;background:var(--oxblood);transform-origin:0 50%;opacity:1;}
+#turnNot{position:absolute;left:1040px;top:650px;font-family:"Songti SC","STSong",serif;font-size:180px;line-height:1;color:var(--oxblood);opacity:0;transform:rotate(-5deg);text-shadow:0 8px 50px rgba(0,0,0,.6);}
+#turnNot .en{display:block;font-family:"EB Garamond",serif;font-style:italic;font-size:18px;letter-spacing:.28em;color:rgba(239,230,214,.45);margin-top:18px;text-align:right;}
+
+/* ---------- responsibility ---------- */
+#responsibility{z-index:20;}
+.respBlock{position:absolute;left:132px;top:208px;width:1450px;opacity:0;visibility:hidden;}
+
+.respBlock .pre{font-family:"EB Garamond",serif;font-style:italic;font-size:16px;letter-spacing:.22em;color:rgba(239,230,214,.4);margin-bottom:18px;}
+.respBlock .txt{font-family:"Songti SC","STSong",serif;font-size:56px;line-height:1.7;letter-spacing:1px;}
+.respBlock .txt.big{font-size:60px;}
+.respBlock .txt .em{color:var(--amber);}
+.respRule{width:100%;height:1px;background:rgba(239,230,214,.18);margin-top:28px;transform-origin:0 50%;}
+
+/* ---------- mirror ---------- */
+#mirrorScene{z-index:21;}
+#mirror{position:absolute;left:1050px;top:166px;width:710px;height:748px;border-radius:50% 50% 47% 47% / 46% 46% 54% 54%;overflow:hidden;border:2px solid rgba(239,230,214,.4);box-shadow:0 32px 100px rgba(0,0,0,.5), inset 0 0 80px rgba(0,0,0,.65);opacity:0;visibility:hidden;background:#0a0908;}
+#mirror video{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;filter:grayscale(1) contrast(1.05) brightness(.62) sepia(.08);}
+#mirrorGlass{position:absolute;inset:0;background:linear-gradient(112deg,rgba(255,247,230,.16) 0%,rgba(255,247,230,.02) 22%,transparent 38%,rgba(255,247,230,.08) 55%,transparent 70%);mix-blend-mode:screen;}
+#mirrorGhost{position:absolute;inset:0;background:url("assets/stills/couple.jpg") center/cover;filter:grayscale(1) brightness(.75);opacity:.12;mix-blend-mode:screen;}
+#mirrorDust{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(255,247,230,.08),transparent 45%);}
+#mirrorText{position:absolute;left:132px;top:204px;width:830px;}
+#mirrorIntro{opacity:0;visibility:hidden;}
+#mirrorIntro .tag{font-size:16px;letter-spacing:.26em;color:rgba(201,149,90,.85);margin-bottom:22px;}
+#mirrorIntro .txt{font-family:"Songti SC","STSong",serif;font-size:48px;line-height:1.65;letter-spacing:1px;}
+#q1,#q2{position:absolute;left:132px;top:222px;width:850px;opacity:0;visibility:hidden;}
+#q1 .n,#q2 .n{font-family:"EB Garamond",serif;font-style:italic;font-size:17px;letter-spacing:.24em;color:rgba(201,149,90,.8);margin-bottom:22px;}
+#q1 .txt{font-family:"Songti SC","STSong",serif;font-size:56px;line-height:1.68;letter-spacing:1px;}
+#q2 .txt{font-family:"Songti SC","STSong",serif;font-size:58px;line-height:1.62;letter-spacing:1px;}
+#q2 .ghost{position:absolute;left:0;top:-70px;font-size:22px;line-height:1.7;color:rgba(239,230,214,.22);white-space:nowrap;}
+
+/* ---------- kant ---------- */
+#kant{z-index:20;}
+#kantCard{position:absolute;left:132px;top:224px;width:300px;height:422px;padding:10px;border:1px solid rgba(239,230,214,.32);opacity:0;visibility:hidden;background:rgba(11,9,7,.5);}
+#kantCard img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35) sepia(.12) brightness(.85) contrast(1.04);}
+#kantCap{position:absolute;left:132px;top:676px;width:340px;font-family:"EB Garamond",serif;font-size:16px;line-height:1.7;color:rgba(239,230,214,.56);}
+#kantText{position:absolute;left:570px;top:204px;width:1210px;}
+#kantText .tag{font-size:16px;letter-spacing:.26em;color:rgba(201,149,90,.88);margin-bottom:22px;}
+#kantMain{font-family:"Songti SC","STSong",serif;font-size:74px;line-height:1.55;letter-spacing:2px;}
+#kantMain .big{font-size:112px;color:#f4ecdd;display:inline-block;}
+#kantA,#kantB{position:absolute;left:570px;top:572px;width:1130px;opacity:0;visibility:hidden;}
+#kantA .txt,#kantB .txt{font-size:38px;line-height:1.8;color:rgba(239,230,214,.78);}
+#kantA .rule,#kantB .rule{width:100%;height:1px;background:rgba(239,230,214,.18);margin-top:20px;transform-origin:0 50%;}
+.bar{position:absolute;top:548px;width:2px;height:330px;transform-origin:50% 0;opacity:.5;}
+#barA{left:600px;background:linear-gradient(180deg,rgba(201,149,90,.75),rgba(201,149,90,0));}
+#barB{left:1580px;background:linear-gradient(180deg,rgba(239,230,214,.65),rgba(239,230,214,0));}
+#kantUmbrella{position:absolute;left:520px;top:430px;width:1200px;opacity:0;}
+
+/* ---------- small words ---------- */
+#smallWords{z-index:23;}
+#intertitle{position:absolute;left:338px;top:298px;width:1244px;height:394px;border:1px solid rgba(239,230,214,.36);padding:56px 70px;text-align:center;opacity:0;visibility:hidden;background:rgba(5,4,3,.34);}
+#intertitle .tag{font-family:"EB Garamond",serif;font-style:italic;font-size:17px;letter-spacing:.28em;color:rgba(201,149,90,.82);margin-bottom:36px;}
+#intertitle .l1,#intertitle .l2{font-family:"Songti SC","STSong",serif;font-size:84px;line-height:1.36;letter-spacing:3px;color:#f5eddf;}
+#afterWords{position:absolute;left:130px;top:262px;width:760px;opacity:0;visibility:hidden;}
+#afterWords .a{font-size:34px;letter-spacing:.1em;color:rgba(239,230,214,.55);margin-bottom:22px;}
+#afterWords .b{font-family:"Songti SC","STSong",serif;font-size:56px;line-height:1.6;letter-spacing:1px;}
+#afterWords .b .soft{color:rgba(239,230,214,.6);}
+
+/* ---------- practice ---------- */
+#practice{z-index:20;}
+#pracA{position:absolute;left:132px;top:204px;width:800px;opacity:0;visibility:hidden;}
+#pracA .txt{font-family:"Songti SC","STSong",serif;font-size:50px;line-height:1.65;}
+#pracB{position:absolute;left:132px;top:428px;width:820px;opacity:0;visibility:hidden;}
+#pracB .txt{font-size:40px;line-height:1.85;color:rgba(239,230,214,.78);}
+#pracC{position:absolute;left:132px;top:704px;width:1500px;opacity:0;visibility:hidden;}
+#pracC .txt{font-family:"Songti SC","STSong",serif;font-size:72px;line-height:1.5;letter-spacing:2px;}
+#pracC .outline{color:transparent;-webkit-text-stroke:2px rgba(239,230,214,.92);}
+#pracRule{position:absolute;left:132px;top:648px;width:900px;height:1px;background:rgba(239,230,214,.18);transform-origin:0 50%;opacity:0;}
+
+/* ---------- ending ---------- */
+#ending{z-index:19;}
+#endLine{position:absolute;left:130px;top:170px;width:800px;}
+#endLine .txt{font-family:"Songti SC","STSong",serif;font-size:54px;line-height:1.62;letter-spacing:1px;text-shadow:0 3px 30px rgba(0,0,0,.55);}
+#endLine .txt .em{color:var(--amber);}
+#endLine2{position:absolute;left:130px;top:498px;width:760px;}
+#endLine2 .txt{font-size:46px;line-height:1.8;color:rgba(239,230,214,.84);}
+#endRule{position:absolute;left:132px;top:468px;width:560px;height:1px;background:rgba(239,230,214,.2);transform-origin:0 50%;}
+
+/* ---------- credits ---------- */
+#credits{z-index:30;}
+#credits .wrap{position:absolute;left:132px;top:240px;width:1660px;}
+#credits .tag{font-family:"EB Garamond",serif;font-style:italic;font-size:16px;letter-spacing:.3em;color:rgba(201,149,90,.75);margin-bottom:26px;}
+#credits .title{font-family:"Songti SC","STSong",serif;font-size:56px;line-height:1.5;letter-spacing:2px;color:rgba(239,230,214,.9);}
+#credits .rule{width:100%;height:1px;background:rgba(239,230,214,.2);margin:44px 0 30px;transform-origin:0 50%;}
+#credits .cols{display:flex;gap:80px;font-size:19px;line-height:1.9;color:rgba(239,230,214,.66);}
+#credits .cols b{display:block;font-weight:500;color:rgba(239,230,214,.78);letter-spacing:.08em;margin-bottom:6px;}
+#credits .cols .col{width:480px;}
+#credits .note{margin-top:34px;font-size:19px;line-height:1.75;letter-spacing:.03em;color:rgba(239,230,214,.58);}
+
+/* ---------- subtitles / credit ---------- */
+#subs{position:absolute;left:0;bottom:50px;width:100%;height:92px;z-index:40;pointer-events:none;}
+.sub{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:1500px;text-align:center;font-size:28px;line-height:1.5;letter-spacing:.03em;color:rgba(243,235,222,.94);text-shadow:0 2px 18px rgba(0,0,0,.9);opacity:0;visibility:hidden;}
+#subveil{position:absolute;left:0;bottom:0;width:100%;height:240px;z-index:39;pointer-events:none;background:linear-gradient(180deg,rgba(3,2,2,0),rgba(3,2,2,.66) 78%,rgba(3,2,2,.82));}
+#credit{position:absolute;right:36px;bottom:14px;z-index:41;font-family:"EB Garamond","PingFang SC",serif;font-size:13px;letter-spacing:.05em;color:rgba(239,230,214,.46);text-align:right;}
+#credit .cn{font-family:"PingFang SC",sans-serif;font-size:12px;letter-spacing:.12em;}
+
+/* ---------- flash ---------- */
+#flash{position:absolute;inset:0;z-index:60;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 62% 44%, #fff8e8 0%, #f1cf9e 32%, rgba(160,77,38,.4) 58%, transparent 78%);mix-blend-mode:screen;}
+#burnEdge{position:absolute;inset:0;z-index:59;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 80% 30%, transparent 40%, rgba(122,52,25,.5) 72%, rgba(50,17,8,.85) 100%);mix-blend-mode:multiply;}
+</style>
+</head>
+<body>
+<div id="film" data-composition-id="film" data-width="1920" data-height="1080" data-duration="201.37">
+
+  <audio id="score" src="assets/score.wav" data-start="0" data-duration="198.366667" data-track-index="9" data-volume="1"></audio>
+
+  <div id="filmbase" aria-hidden="true">
+    <div class="clip c1" id="c1"><video id="v01" data-start="0" data-duration="23.8" data-media-start="0" data-playback-rate="0.28" data-track-index="1" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c2" id="c2"><video id="v02" data-start="23.2" data-duration="15.6" data-media-start="0" data-playback-rate="0.86" data-track-index="2" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c3" id="c3"><video id="v03" data-start="38.3" data-duration="17.2" data-media-start="0" data-playback-rate="0.405" data-track-index="3" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c4" id="c4"><video id="v04" data-start="55.0" data-duration="13.5" data-media-start="0" data-playback-rate="0.75" data-track-index="4" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
+    <div class="clip c5" id="c5"><video id="v05" data-start="68.0" data-duration="32.7" data-media-start="0" data-playback-rate="0.31" data-track-index="5" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
+    <div class="clip c6" id="c6"><video id="v06" data-start="93.2" data-duration="26.9" data-media-start="0" data-playback-rate="0.5" data-track-index="6" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c7" id="c7"><video id="v07" data-start="120.0" data-duration="18.1" data-media-start="4.0" data-playback-rate="0.5" data-track-index="7" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c8" id="c8"><video id="v08" data-start="137.6" data-duration="17.9" data-media-start="0" data-playback-rate="0.39" data-track-index="8" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c9" id="c9"><video id="v09" data-start="155.0" data-duration="12.8" data-media-start="0" data-playback-rate="0.80" data-track-index="10" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
+    <div class="clip c10" id="c10"><video id="v10" data-start="167.4" data-duration="16.9" data-media-start="2.0" data-playback-rate="0.68" data-track-index="11" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c11" id="c11"><video id="v11" data-start="184.0" data-duration="14.4" data-media-start="0" data-playback-rate="0.47" data-track-index="12" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="grade"></div>
+  </div>
+
+  <canvas id="rainCanvas" width="1920" height="1080" aria-hidden="true"></canvas>
+  <div id="blackout" aria-hidden="true"></div>
+  <div id="flicker" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scratches" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div id="content">
+    <!-- hook -->
+    <section id="hook" class="scene" data-om-id="hook">
+      <div class="slug">
+        <span class="cn" data-var-text="kicker">ON KINDNESS &amp; LOVE</span>
+        <span class="en">an essay in rain and light</span>
+      </div>
+      <h1 class="hookTitle" data-om-var="filmTitle" data-om-id="title">
+        <span class="line"><span id="hookL1"></span></span>
+        <span class="line"><span id="hookL2"></span></span>
+      </h1>
+      <div class="hookRule"></div>
+      <div class="hookMeta">一部关于亲密关系的影像随笔</div>
+      <div class="hookSide">1927 ·<br>7th Heaven<br>a film in the rain</div>
+    </section>
+
+    <!-- umbrella story text -->
+    <section id="rainStory" class="scene" data-om-id="umbrella-story">
+      <div class="storyText">
+        <div class="storyKicker">一个虚构的情境</div>
+        <div class="storyBlock" id="storyA">
+          <div class="big line"><span>想象两个人</span></div>
+          <div class="big line"><span>走在雨里。</span></div>
+        </div>
+        <div class="storyBlock" id="storyB">
+          <div class="big line"><span>伞，向对方</span></div>
+          <div class="big line"><span>倾斜。</span></div>
+        </div>
+        <div class="storyBlock" id="storyC">
+          <div class="big line"><span>自己淋湿一点，</span></div>
+          <div class="big line"><span>没关系。</span></div>
+        </div>
+        <div class="storyBlock" id="storyD">
+          <div class="big line"><span>再体贴一点，</span></div>
+          <div class="big line"><span class="amber">对方总会发现？</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- fiction -->
+    <section id="fiction" class="scene" data-om-id="fiction">
+      <div class="fictionWrap">
+        <div class="fictionLabel serif">这是一个虚构的故事。</div>
+        <div class="fictionRule"></div>
+        <div class="fictionSub">FICTIONAL SITUATION · NOT A REAL CASE</div>
+      </div>
+    </section>
+
+    <!-- distinction -->
+    <section id="distinction" class="scene" data-om-id="distinction">
+      <div class="frames">
+        <div class="frame" id="frameKind">
+          <div class="tag">01 / KINDNESS</div>
+          <div class="mat"><div class="ph"><img src="assets/stills/woman.jpg" alt=""></div></div>
+          <div class="label">
+            <div class="zh">善良</div>
+            <div class="en">HOW YOU TREAT THE OTHER</div>
+            <div class="cap">你怎样对待别人</div>
+          </div>
+        </div>
+        <div class="frame" id="frameFit">
+          <div class="tag">02 / FIT</div>
+          <div class="mat"><div class="ph"><img src="assets/stills/couple.jpg" alt=""></div></div>
+          <div class="label">
+            <div class="zh">合适</div>
+            <div class="en">HOW YOU TREAT EACH OTHER</div>
+            <div class="cap">你们怎样对待彼此</div>
+          </div>
+        </div>
+      </div>
+      <div id="notSameBg"></div>
+      <div id="notSame">
+        <div class="line"><span class="big">这不是</span></div>
+        <div class="line"><span class="big">同一道题。</span></div>
+        <div class="small">NOT THE SAME QUESTION</div>
+      </div>
+      <div id="crack"></div>
+    </section>
+
+    <!-- aristotle -->
+    <section id="aristotle" class="scene" data-om-id="aristotle">
+      <div id="ariPortrait"><img src="assets/portraits/aristotle.jpg" alt=""></div>
+      <div class="ariCaption">
+        <div class="zh">亚里士多德</div>
+        <div class="en">ARISTOTLE · ON FRIENDSHIP<br>Nicomachean Ethics VIII.2<br>Photo: Jastrow (2006) · Public Domain</div>
+      </div>
+      <div id="reciprocity">
+        <div class="diagramTitle">相互的善意 · MUTUAL GOODWILL</div>
+        <div class="recFrame" id="recL"><img src="assets/stills/woman.jpg" alt=""><div class="recLabel">你希望对方好</div></div>
+        <div class="recFrame" id="recR"><img src="assets/stills/couple.jpg" alt=""><div class="recLabel">并且知道，对方也希望你好</div></div>
+        <svg id="recArrows" viewBox="0 0 1220 540">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9955a"/></marker>
+          </defs>
+          <path id="arrowA" d="M354 196 C470 142 520 142 566 182" marker-end="url(#arr)"/>
+          <path id="arrowB" d="M566 228 C500 278 430 278 354 238" marker-end="url(#arr)"/>
+          <text x="375" y="128">goodwill</text>
+          <text x="470" y="306">and both know it</text>
+        </svg>
+        <div class="recNote">友爱需要双方都希望对方过得好，<br>而且彼此知道这份善意。</div>
+      </div>
+      <div class="ariLine">
+        <div class="line"><span>一个人的付出，</span></div>
+        <div class="line"><span>无法独自完成<span class="em">两个人的关系</span>。</span></div>
+      </div>
+    </section>
+
+    <!-- limit -->
+    <section id="limit" class="scene" data-om-id="limit">
+      <div class="sceneScrim soft-left"></div>
+      <div class="sceneScrim right"></div>
+      <div class="limitText">
+        <div class="small">THE LIMIT OF ONE UMBRELLA</div>
+        <div class="ln line"><span>你可以把伞倾向他，</span></div>
+        <div class="ln line"><span class="dim">却不能替他决定，</span></div>
+        <div class="ln line"><span>要不要关心你有没有淋湿。</span></div>
+        <div class="limitRule"></div>
+      </div>
+    </section>
+
+    <!-- question -->
+    <section id="question" class="scene" data-om-id="question">
+      <div id="qSmallFrame"><img src="assets/stills/couple.jpg" alt=""></div>
+      <div id="qText">
+        <div class="pre">可为什么</div>
+        <div class="big line"><span>有时我们已经很难过，</span></div>
+        <div class="big line"><span>却还是期待下一次会不同？</span></div>
+      </div>
+      <div id="qRule"></div>
+    </section>
+
+    <!-- freud -->
+    <section id="freud" class="scene" data-om-id="freud">
+      <div id="freudCard">
+        <div class="cardMat"><div class="photo"><img src="assets/portraits/freud.jpg" alt=""><div id="freudSweep"></div></div></div>
+        <div class="cardCap">Sigmund Freud, c.1921<br>Max Halberstadt · Wikimedia Commons · Public Domain</div>
+      </div>
+      <div id="freudText">
+        <div class="tag">一种理解角度 · AN INTERPRETATION</div>
+        <div class="name">弗洛伊德</div>
+        <div class="nameEn">SIGMUND FREUD</div>
+        <div class="body"><span class="line"><span>过去不只存在于记忆里，</span></span><span class="line"><span>也可能在当下的关系中<span class="em">重演</span>。</span></span></div>
+      </div>
+      <div id="freudStamp">解释视角，不是诊断</div>
+      <div id="loopWrap">
+        <div id="loopTitle">换了对象，<br>却重复相似的过程</div>
+        <svg id="loopRing" viewBox="0 0 760 700">
+          <circle class="ring" cx="380" cy="350" r="258"/>
+          <circle class="ringWarm" cx="380" cy="350" r="288"/>
+          <g id="orbit"><circle class="orbitDot" cx="380" cy="92" r="4"/></g>
+          <path d="M380 612 C250 610 170 520 160 420" fill="none" stroke="rgba(201,149,90,.5)" stroke-width="1.4" stroke-dasharray="2 7"/>
+          <path d="M160 420 l-8 18 l20 -6" fill="none" stroke="rgba(201,149,90,.6)" stroke-width="1.4"/>
+        </svg>
+        <div class="loopCard" id="loopC1"><div class="num">01</div><img src="assets/stills/man.jpg" alt=""></div>
+        <div class="loopCard" id="loopC2"><div class="num">02</div><img src="assets/stills/woman.jpg" alt=""></div>
+        <div class="loopCard" id="loopC3"><div class="num">03</div><img src="assets/stills/couple.jpg" alt=""></div>
+        <div id="loopCenter">相似的过程<br>相似的结局</div>
+      </div>
+      <div id="patternText">
+        <div class="l1">有人习惯了努力换取认可，<br>于是在关系里，<br>也不断试着证明自己值得被爱。</div>
+      </div>
+    </section>
+
+    <!-- coldness -->
+    <section id="coldness" class="scene" data-om-id="coldness">
+      <div class="sceneScrim left"></div>
+      <div id="coldLead">
+        <div class="a">对方冷淡时，</div>
+        <div class="b">他首先想到的，</div>
+      </div>
+      <div id="choiceNot">不是「我们合不合适」</div>
+      <div id="strikeNot"></div>
+      <div id="choiceGhost">而是「是不是我还不够好」</div>
+      <div id="choiceIs">而是「是不是我还不够好」</div>
+    </section>
+
+    <!-- turn -->
+    <section id="turn" class="scene" data-om-id="turn">
+      <div class="wrap">
+        <div class="line"><span id="turnExplain">这不是对所有人的解释。</span></div>
+        <div id="turnMore">更不是说——</div>
+        <div id="turnQuote"><span class="target">伤害，是你自己招来的。<span id="turnStrike"></span></span></div>
+      </div>
+      <div id="turnNot">不是。<span class="en">NOT YOUR FAULT</span></div>
+    </section>
+
+    <!-- responsibility -->
+    <section id="responsibility" class="scene" data-om-id="responsibility">
+      <div class="sceneScrim left"></div>
+      <div class="respBlock" id="respA">
+        <div class="pre">WHAT CAN HIDE</div>
+        <div class="txt">欺骗可能被隐藏，<br>人也会改变。</div>
+        <div class="respRule"></div>
+      </div>
+      <div class="respBlock" id="respB">
+        <div class="pre">WHAT TIME REVEALS</div>
+        <div class="txt">有些不合适，<br>只有相处以后才看得见。</div>
+        <div class="respRule"></div>
+      </div>
+      <div class="respBlock" id="respC">
+        <div class="pre">WHERE RESPONSIBILITY LIES</div>
+        <div class="txt big">伤害别人的<span class="em">责任</span>，<br>不能用潜意识或童年<br>替对方开脱。</div>
+      </div>
+    </section>
+
+    <!-- mirror -->
+    <section id="mirrorScene" class="scene" data-om-id="reflection">
+      <div class="sceneScrim left"></div>
+      <div id="mirror">
+        <video id="v07m" data-start="120.2" data-duration="17.6" data-media-start="4.0" data-playback-rate="0.5" data-track-index="20" muted playsinline src="assets/movies/movie_02.mp4"></video>
+        <div id="mirrorGhost"></div><div id="mirrorGlass"></div><div id="mirrorDust"></div>
+      </div>
+      <div id="mirrorText">
+        <div id="mirrorIntro">
+          <div class="tag">看清一种可能</div>
+          <div class="txt">研究自己的关系模式，<br>不是为了责怪自己，<br>而是为了多看清一种可能。</div>
+        </div>
+        <div id="q1">
+          <div class="n">QUESTION 01</div>
+          <div class="txt">我是在真心愿意地付出，<br>还是害怕一旦停止，<br>就会失去这段关系？</div>
+        </div>
+        <div id="q2">
+          <div class="n">QUESTION 02</div>
+          <div class="ghost">我是在真心愿意地付出，还是害怕失去？</div>
+          <div class="txt">我爱的是眼前的人，<br>还是一直等待<br>他变成的那个人？</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- kant -->
+    <section id="kant" class="scene" data-om-id="kant">
+      <div id="kantCard"><img src="assets/portraits/kant.jpg" alt=""></div>
+      <div id="kantCap">Immanuel Kant, c.1790<br>Artist unknown · Wikimedia Commons · Public Domain</div>
+      <div class="bar" id="barA"></div><div class="bar" id="barB"></div>
+      <div id="kantText">
+        <div class="tag">康德 · 关于尊重</div>
+        <div id="kantMain">
+          <div class="line"><span>值得被尊重的人，</span></div>
+          <div class="line"><span class="big">也包括自己。</span></div>
+        </div>
+      </div>
+      <div id="kantA">
+        <div class="txt">理解他的难处，<br>不意味着你的委屈就不重要。</div>
+        <div class="rule"></div>
+      </div>
+      <div id="kantB">
+        <div class="txt">愿意陪他成长，<br>也不意味着你必须无限期等待。</div>
+        <div class="rule"></div>
+      </div>
+    </section>
+
+    <!-- small words -->
+    <section id="smallWords" class="scene" data-om-id="small-words">
+      <div id="intertitle">
+        <div class="tag">A SMALL SENTENCE</div>
+        <div class="l1 line"><span>我也冷，</span></div>
+        <div class="l2 line"><span>我也需要这把伞。</span></div>
+      </div>
+      <div id="afterWords">
+        <div class="a">然后看看，</div>
+        <div class="b">对方是否愿意听见，<br><span class="soft">是否愿意一起调整。</span></div>
+      </div>
+    </section>
+
+    <!-- practice -->
+    <section id="practice" class="scene" data-om-id="practice">
+      <div class="sceneScrim left"></div>
+      <div id="pracA">
+        <div class="txt">当然，看清一个模式，<br>不代表立刻就能改变它。</div>
+      </div>
+      <div id="pracB">
+        <div class="txt">你可以慢慢练习表达需要，<br>不必再把每一次失望，<br>都解释成自己还不够好。</div>
+      </div>
+      <div id="pracRule"></div>
+      <div id="pracC">
+        <div class="txt">遇到错的人，<br>不意味着你从此必须变得<span class="outline">冷漠</span>。</div>
+      </div>
+    </section>
+
+    <!-- ending -->
+    <section id="ending" class="scene" data-om-id="ending">
+      <div class="sceneScrim soft"></div>
+      <div id="endLine">
+        <div class="txt">愿你保留愿意撑伞的温柔，<br>也记得<span class="em">给自己留一个位置</span>。</div>
+      </div>
+      <div id="endRule"></div>
+      <div id="endLine2">
+        <div class="txt">好的关系，不该只有一个人在努力，<br>让另一个人不被雨淋。</div>
+      </div>
+    </section>
+
+    <!-- credits -->
+    <section id="credits" class="scene" data-om-id="credits">
+      <div class="wrap">
+        <div class="tag">ON KINDNESS &amp; LOVE · 2026</div>
+        <div class="title" data-var-text="filmTitle">为什么有些好人，会和错的人交往？</div>
+        <div class="rule"></div>
+        <div class="cols">
+          <div class="col"><b>文稿 / 旁白</b>本片旁白稿<br>本人授权声线（本地生成）</div>
+          <div class="col"><b>电影画面</b>《第七天堂》7th Heaven (1927)<br>Frank Borzage · 美国/中国公版<br>已去除原片音轨</div>
+          <div class="col"><b>肖像</b>Freud: Max Halberstadt, c.1921<br>Aristotle: Jastrow, 2006<br>Kant: artist unknown, c.1790<br>Wikimedia Commons · Public Domain</div>
+        </div>
+        <div class="note">电影画面仅作情绪与关系意象，非真实案例，也不构成心理诊断。不同地区的影片权利状态可能不同。</div>
+      </div>
+    </section>
+
+    <!-- rain / umbrella spine -->
+    <div id="selfLight"></div>
+    <div id="dryhalf"></div>
+    <div id="rainScene" data-om-id="umbrella" aria-hidden="true">
+      <svg viewBox="0 0 1000 800">
+        <defs>
+          <radialGradient id="warmGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#c9955a" stop-opacity=".42"/>
+            <stop offset="55%" stop-color="#c9955a" stop-opacity=".12"/>
+            <stop offset="100%" stop-color="#c9955a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="500" cy="420" rx="430" ry="380" fill="url(#warmGlow)" opacity=".22"/>
+        <ellipse class="groundGlow" cx="500" cy="700" rx="360" ry="48"/>
+        <path d="M170 690 Q500 666 840 690" fill="none" stroke="rgba(239,230,214,.18)" stroke-width="1"/>
+        <g id="umb">
+          <path id="canopy" d="M140 230 Q500 -40 860 230 Q815 200 770 230 Q725 200 680 230 Q635 200 590 230 Q545 200 500 230 Q455 200 410 230 Q365 200 320 230 Q275 200 230 230 Q185 200 140 230 Z"/>
+          <path class="rib" d="M500 56 L140 230"/><path class="rib" d="M500 56 L230 230"/><path class="rib" d="M500 56 L320 230"/><path class="rib" d="M500 56 L410 230"/><path class="rib" d="M500 56 L500 230"/><path class="rib" d="M500 56 L590 230"/><path class="rib" d="M500 56 L680 230"/><path class="rib" d="M500 56 L770 230"/><path class="rib" d="M500 56 L860 230"/>
+          <path class="shaft" d="M500 56 L500 560"/>
+          <path class="handle" d="M500 560 C500 612 458 622 448 584"/>
+        </g>
+        <g id="figLpos" transform="translate(330,280)"><g id="figL" class="fig" transform="scale(1.3)">
+          <circle cx="62" cy="34" r="23"/>
+          <path d="M44 68 C30 78 24 100 26 126 L34 170 L28 292 L52 292 L60 210 L66 210 L74 292 L98 292 L94 168 C100 120 94 88 80 72 Z"/>
+          <path d="M48 82 C78 70 112 60 142 56 L146 72 C114 78 84 94 58 108 Z"/>
+          <g id="wet"><path class="wet" d="M38 78 C52 68 76 66 94 78 L96 132 C82 148 52 148 38 132 Z"/><path class="drip" d="M44 134 q-3 14 1 24"/><path class="drip" d="M64 140 q-2 18 2 28"/><path class="drip" d="M84 134 q3 12 0 22"/></g>
+        </g></g>
+        <g transform="translate(650,300)"><g id="figRpos"><g id="figR" class="fig" transform="scale(1.25)">
+          <circle cx="46" cy="33" r="21"/>
+          <path d="M27 66 C16 80 14 108 20 138 L17 284 L38 284 L45 202 L53 202 L60 284 L81 284 L78 136 C84 102 76 78 63 66 Z"/>
+          <path d="M26 68 C34 58 58 58 68 68" fill="none" stroke="#060504" stroke-width="3"/>
+        </g></g></g>
+      </svg>
+    </div>
+  </div>
+
+  <div id="subveil"></div>
+  <div id="subs" aria-live="polite"></div>
+  <div id="credit"><span class="cn">电影画面《第七天堂》1927 · 非真实案例</span><br>7th Heaven · Frank Borzage · Public Domain (US / CN)</div>
+  <div id="burnEdge"></div>
+  <div id="flash"></div>
+</div>
+
+<script>
+/* This composition is built to an existing 194s voice track; timings are cue times. */
+const V = OM.vars();
+const DUR = 201.37;
+const show = (s) => gsap.set(s, { autoAlpha: 1 });
+const hide = (s) => gsap.set(s, { autoAlpha: 0 });
+gsap.set('.scene', { autoAlpha: 0 });
+gsap.set('.line > span', { yPercent: 110 });
+gsap.set(['#rainScene', '#dryhalf', '#selfLight', '#blackout', '#flash', '#burnEdge'], { autoAlpha: 0 });
+gsap.set('.storyBlock, .frame, #notSame, #ariPortrait, #reciprocity, .recFrame, #qSmallFrame, #freudCard, #freudText, #freudStamp, #loopWrap, #patternText, #choiceNot, #choiceIs, #choiceGhost, #mirror, #mirrorIntro, #q1, #q2, #kantCard, #kantA, #kantB, #intertitle, #afterWords, #pracA, #pracB, #pracC, #endLine, #endLine2, #credits', { autoAlpha: 0 });
+gsap.set('#turn', { autoAlpha: 0 });
+gsap.set('.storyBlock .sub, .storyBlock .tiny', { autoAlpha: 0 });
+gsap.set('#mirrorIntro .txt', { autoAlpha: 0 });
+gsap.set('#freudText .tag, #freudText .name, #freudText .nameEn', { autoAlpha: 0 });
+gsap.set('#loopTitle, .loopCard, #kantCap', { autoAlpha: 0 });
+gsap.set('#coldLead .a, #coldLead .b', { autoAlpha: 0 });
+gsap.set('#credits .cols, #credits .note', { autoAlpha: 0 });
+gsap.set('#loopRing .ring', { strokeDashoffset: 240 });
+gsap.set('#turnMore, #turnQuote, #turnNot', { autoAlpha: 0 });
+gsap.set('#turnStrike', { scaleX: 0 });
+gsap.set('#crack', { scaleY: 0 });
+gsap.set('#notSameBg', { autoAlpha: 0 });
+gsap.set('#strikeNot', { scaleX: 0 });
+gsap.set('#qRule', { scaleX: 0 });
+gsap.set('#pracRule', { scaleX: 0 });
+gsap.set('#endRule', { scaleX: 0 });
+gsap.set('.bar', { scaleY: 0 });
+gsap.set('#hook .slug, .hookMeta, .hookSide', { autoAlpha: 0 });
+gsap.set('#hook .hookRule', { scaleX: 0 });
+gsap.set('#credit', { autoAlpha: 0 });
+gsap.set('#subveil', { autoAlpha: 0 });
+
+/* split the title into two readable lines */
+const parts = String(V.filmTitle).split('，');
+document.getElementById('hookL1').textContent = (parts[0] || '') + '，';
+document.getElementById('hookL2').textContent = parts.slice(1).join('，') || '';
+document.querySelector('#hook').setAttribute('data-om-var', 'filmTitle');
+
+/* subtitles from the existing voice cue sheet */
+const CUES = [
+[0,3.22,'为什么有些好人，会和错的人交往？'],
+[4.7,6.5,'想象两个人走在雨里。'],
+[7.88,10.88,'其中一个人，总把伞往对方那边倾。'],
+[12.12,15.38,'起初，他觉得，自己淋湿一点没关系。'],
+[16.52,22.22,'后来，肩膀越来越湿，他却仍然相信：只要再体贴一点，对方总会发现。'],
+[23.59,25.01,'这是一个虚构的故事。'],
+[26.15,30.41,'但它让我们看见一个区别：善良，是你怎样对待别人；'],
+[31.43,34.29,'合适，是你们怎样对待彼此。'],
+[35.65,37.07,'这不是同一道题。'],
+[38.67,44.35,'亚里士多德在讨论友爱时，强调相互的善意，而且双方都知道，'],
+[44.59,46.29,'对方真心希望自己过得好。'],
+[47.85,53.77,'把这个区别放进亲密关系里，你会发现：一个人的付出，无法独自完成两个人的关系。'],
+[55.35,60.47,'你可以把伞倾向他，却不能替他决定，要不要关心你有没有淋湿。'],
+[61.97,66.69,'可为什么，有时我们已经很难过，却还是期待下一次会不同？'],
+[68.27,74.35,'弗洛伊德提供过一种理解角度：过去不只存在于记忆里，也可能在当下的关系中重演。'],
+[75.77,80.95,'他讨论过这样的现象：有些人换了恋爱的对象，却反复经历相似的过程，'],
+[81.15,82.37,'走向相似的结局。'],
+[83.83,89.71,'沿着这个思路，一种可能是：有人习惯了努力换取认可，于是在关系里，'],
+[89.71,92.03,'也不断试着证明自己值得被爱。'],
+[93.49,99.03,'对方冷淡时，他首先想到的不是“我们合不合适”，而是“是不是我还不够好”。'],
+[100.51,105.27,'这不是对所有人的解释，更不是说，伤害是你自己招来的。'],
+[106.65,109.71,'欺骗可能被隐藏，人也会改变。'],
+[110.57,113.27,'有些不合适，只有相处以后才看得见。'],
+[114.41,118.71,'伤害别人的责任，不能用潜意识或童年来替对方开脱。'],
+[120.13,125.01,'研究自己的关系模式，不是为了责怪自己，而是为了多看清一种可能。'],
+[126.59,131.53,'我是在真心愿意地付出，还是害怕一旦停止，就会失去这段关系？'],
+[133.05,136.43,'我爱的是眼前的人，还是一直等待他变成的那个人？'],
+[137.99,143.71,'从康德关于尊重的讨论里，我们还能得到一个提醒：值得被尊重的人，也包括自己。'],
+[145.17,148.55,'理解他的难处，不意味着你的委屈就不重要。'],
+[150.11,153.75,'愿意陪他成长，也不意味着你必须无限期等待。'],
+[155.29,160.71,'或许，改变可以从一句很小的话开始：我也冷，我也需要这把伞。'],
+[162.15,166.19,'然后看看，对方是否愿意听见，是否愿意一起调整。'],
+[167.62,171.08,'当然，看清一个模式，不代表立刻就能改变它。'],
+[172.26,178.04,'你可以慢慢练习表达需要，不必再把每一次失望，都解释成自己还不够好。'],
+[179.60,182.72,'遇到错的人，不意味着你从此必须变得冷漠。'],
+[184.14,188.32,'愿你保留愿意撑伞的温柔，也记得给自己留一个位置。'],
+[189.62,194.00,'好的关系，不该只有一个人在努力，让另一个人不被雨淋。']
+];
+const subWrap = document.getElementById('subs');
+const subEls = CUES.map(([a,b,text]) => {
+  const el = document.createElement('div');
+  el.className = 'sub';
+  el.textContent = text;
+  subWrap.appendChild(el);
+  return el;
+});
+
+/* deterministic rain */
+const rain = document.getElementById('rainCanvas');
+const rctx = rain.getContext('2d');
+const rnd = (() => { let s = 20261022; return () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296; })();
+const drops = Array.from({ length: 150 }, () => ({ x: rnd() * 1920, y: rnd() * 1080, len: 14 + rnd() * 54, sp: 320 + rnd() * 620, w: .6 + rnd() * 1.2, a: .18 + rnd() * .45 }));
+function smooth(a,b,t){ const x = Math.max(0, Math.min(1, (t-a)/(b-a))); return x*x*(3-2*x); }
+function rainAmount(t){
+  if (t < 23.8) return .5 + .22 * smooth(7,20,t);
+  if (t > 55.2 && t < 68.2) return .55;
+  if (t > 155.2 && t < 167.6) return .4;
+  if (t >= 167.6 && t < 184.1) return .24;
+  if (t >= 184.1) return .3;
+  return 0;
+}
+function drawRain(t){
+  const a = rainAmount(t);
+  rctx.clearRect(0, 0, 1920, 1080);
+  if (!a) return;
+  rctx.save();
+  rctx.strokeStyle = 'rgba(205,222,227,1)';
+  rctx.lineCap = 'round';
+  for (const d of drops) {
+    const y = (d.y + t * d.sp) % 1160;
+    const x = d.x + y * .09;
+    rctx.globalAlpha = d.a * a;
+    rctx.lineWidth = d.w;
+    rctx.beginPath();
+    rctx.moveTo(x, y);
+    rctx.lineTo(x - d.len * .09, y + d.len);
+    rctx.stroke();
+  }
+  rctx.restore();
+}
+
+/* timeline */
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+
+/* ---- 0. film starts ---- */
+tl.addLabel('scene:hook', 0)
+  .set('#hook', { autoAlpha: 1 }, 0)
+  .set('#c1', { autoAlpha: 1 }, 0)
+  .fromTo('#c1', { scale: 1.06, x: -10, y: 4 }, { scale: 1.17, x: 10, y: -4, duration: 24.0, ease: 'none' }, 0)
+  .fromTo('#hook .slug', { autoAlpha: 0, y: 12 }, { autoAlpha: .62, y: 0, duration: 1.2 }, .35)
+  .fromTo('#hook .hookTitle .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.35, stagger: .42, ease: 'expo.out' }, .45)
+  .to('#hook .hookRule', { scaleX: 1, duration: 1.6, ease: 'expo.inOut' }, 2.1)
+  .fromTo('.hookMeta', { autoAlpha: 0, y: 14 }, { autoAlpha: .58, y: 0, duration: 1.0 }, 2.35)
+  .fromTo('.hookSide', { autoAlpha: 0 }, { autoAlpha: .55, duration: 1.2 }, 2.8)
+  .to('#hook', { autoAlpha: 0, y: -26, duration: .38, ease: 'power2.in' }, 4.28)
+  .set('#hook', { autoAlpha: 0 }, 4.68)
+  .set('#credit', { autoAlpha: 1 }, 1.0)
+  .set('#subveil', { autoAlpha: 1 }, 0);
+
+/* ---- 1. story in the rain (4.7–23.6) ---- */
+tl.addLabel('scene:umbrella', 4.6)
+  .set('#rainStory', { autoAlpha: 1 }, 4.6)
+  .set('#rainScene', { autoAlpha: 1 }, 4.6)
+  .fromTo('#rainScene', { autoAlpha: 0, y: 34, scale: .96 }, { autoAlpha: 1, y: 0, scale: 1, duration: 1.8, ease: 'power2.out' }, 4.6)
+  .to('#umb', { rotation: 7.5, duration: 8.5, ease: 'sine.inOut' }, 7.2)
+  .to('#figRpos', { x: 40, duration: 6.0, ease: 'sine.inOut' }, 9.0)
+  .to('#wet, .wet', { opacity: .55, duration: 3.4 }, 13.4)
+  .to('.drip', { opacity: .8, duration: 1.2, stagger: .4 }, 15.0)
+  .set('#storyA', { autoAlpha: 1 }, 4.75)
+  .fromTo('#storyA .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.25, stagger: .32, ease: 'expo.out' }, 4.8)
+  .to('#storyA', { autoAlpha: 0, y: -16, duration: .7 }, 7.55)
+  .set('#storyB', { autoAlpha: 1 }, 7.75)
+  .fromTo('#storyB .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .22, ease: 'expo.out' }, 7.8)
+  .fromTo('#storyB .sub', { autoAlpha: 0, y: 12 }, { autoAlpha: .8, y: 0, duration: .8 }, 9.4)
+  .to('#storyB', { autoAlpha: 0, y: -16, duration: .7 }, 11.8)
+  .set('#storyC', { autoAlpha: 1 }, 12.0)
+  .fromTo('#storyC .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .24, ease: 'expo.out' }, 12.05)
+  .fromTo('#storyC .sub', { autoAlpha: 0, y: 12 }, { autoAlpha: .72, y: 0, duration: .8 }, 13.5)
+  .to('#storyC', { autoAlpha: 0, y: -16, duration: .7 }, 16.1)
+  .set('#storyD', { autoAlpha: 1 }, 16.3)
+  .fromTo('#storyD .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.15, stagger: .3, ease: 'expo.out' }, 16.35)
+  .fromTo('#storyD .tiny', { autoAlpha: 0, y: 12 }, { autoAlpha: .55, y: 0, duration: 1.0 }, 18.4)
+  .to('#storyD', { autoAlpha: 0, y: -14, duration: .8 }, 22.3)
+  .to('#rainScene', { autoAlpha: 0, y: -20, duration: 1.0 }, 22.8)
+  .to('#rainStory', { autoAlpha: 0, duration: .7 }, 23.3)
+  .set('#rainStory', { autoAlpha: 0 }, 24.0)
+  .set('#rainScene', { autoAlpha: 0 }, 24.0);
+
+/* ---- 2. fictional / distinction (23.6–38.6) ---- */
+tl.addLabel('scene:fiction', 23.6)
+  .set('#fiction', { autoAlpha: 1 }, 23.6)
+  .fromTo('.fictionLabel', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 23.75)
+  .to('.fictionRule', { scaleX: 1, duration: 1.3, ease: 'expo.inOut' }, 24.2)
+  .fromTo('.fictionSub', { autoAlpha: 0 }, { autoAlpha: .45, duration: 1.0 }, 24.6)
+  .to('#fiction', { autoAlpha: 0, duration: .55 }, 25.8)
+  .set('#fiction', { autoAlpha: 0 }, 26.4)
+  .addLabel('scene:distinction', 26.0)
+  .set('#distinction', { autoAlpha: 1 }, 26.0)
+  .set('#c2', { autoAlpha: 1 }, 23.2)
+  .fromTo('#c2', { scale: 1.03, x: -8, y: 4 }, { scale: 1.12, x: 8, y: -4, duration: 16.0, ease: 'none' }, 23.2)
+  .to('#c2', { autoAlpha: 0, duration: .8 }, 38.0)
+  .set('#c2', { autoAlpha: 0 }, 38.9)
+  .set('#frameKind', { autoAlpha: 1 }, 26.1)
+  .fromTo('#frameKind', { autoAlpha: 0, x: -80, rotation: -3.2 }, { autoAlpha: 1, x: 0, rotation: -1.6, duration: 1.35, ease: 'expo.out' }, 26.1)
+  .set('#frameFit', { autoAlpha: 1 }, 31.3)
+  .fromTo('#frameFit', { autoAlpha: 0, x: 80, rotation: 3.2 }, { autoAlpha: 1, x: 0, rotation: 1.6, duration: 1.35, ease: 'expo.out' }, 31.3)
+  .fromTo('#frameKind .label .zh, #frameFit .label .zh', { autoAlpha: 0, y: 22 }, { autoAlpha: 1, y: 0, duration: 1.0, stagger: .5 }, 27.0)
+  .fromTo('#frameKind .label .cap, #frameFit .label .cap', { autoAlpha: 0, y: 12 }, { autoAlpha: .72, y: 0, duration: .8, stagger: .5 }, 27.6)
+  .fromTo('#frameKind .tag, #frameFit .tag', { autoAlpha: 0 }, { autoAlpha: 1, duration: .8, stagger: .45 }, 26.5)
+  .to('#frameKind', { opacity: .32, x: -46, duration: .8 }, 35.35)
+  .to('#frameFit', { opacity: .32, x: 46, duration: .8 }, 35.35)
+  .to('#notSameBg', { autoAlpha: .92, duration: .9 }, 35.35)
+  .to('#crack', { scaleY: 1, duration: 1.2, ease: 'expo.inOut' }, 35.4)
+  .set('#notSame', { autoAlpha: 1 }, 35.6)
+  .fromTo('#notSame .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.0, stagger: .25, ease: 'expo.out' }, 35.65)
+  .fromTo('#notSame .small', { autoAlpha: 0 }, { autoAlpha: .5, duration: 1.0 }, 36.6)
+  .to('#notSame', { autoAlpha: 0, duration: .7 }, 38.0)
+  .to('#distinction', { autoAlpha: 0, duration: .8 }, 38.1)
+  .set('#distinction', { autoAlpha: 0 }, 39.0);
+
+/* ---- 3. Aristotle (38.7–55.3) ---- */
+tl.addLabel('scene:aristotle', 38.6)
+  .set('#aristotle', { autoAlpha: 1 }, 38.6)
+  .set('#c3', { autoAlpha: 1 }, 38.3)
+  .fromTo('#c3', { scale: 1.04, x: -8 }, { scale: 1.13, x: 8, duration: 17.5, ease: 'none' }, 38.3)
+  .to('#c3', { autoAlpha: 0, duration: .8 }, 54.9)
+  .set('#c3', { autoAlpha: 0 }, 55.8)
+  .set('#ariPortrait', { autoAlpha: 1 }, 38.7)
+  .fromTo('#ariPortrait', { autoAlpha: 0, scale: .9 }, { autoAlpha: 1, scale: 1, duration: 1.2, ease: 'expo.out' }, 38.7)
+  .fromTo('#ariPortrait img', { scale: 1.14 }, { scale: 1.02, duration: 12, ease: 'none' }, 38.7)
+  .fromTo('.ariCaption .zh', { autoAlpha: 0, x: -16 }, { autoAlpha: 1, x: 0, duration: .9 }, 39.4)
+  .fromTo('.ariCaption .en', { autoAlpha: 0 }, { autoAlpha: .55, duration: .9 }, 39.8)
+  .set('#reciprocity', { autoAlpha: 1 }, 39.8)
+  .fromTo('#reciprocity', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 39.8)
+  .set('#recL', { autoAlpha: 1 }, 40.2)
+  .set('#recR', { autoAlpha: 1 }, 40.4)
+  .fromTo('#recL', { autoAlpha: 0, x: -36 }, { autoAlpha: 1, x: 0, duration: 1.0 }, 40.2)
+  .fromTo('#recR', { autoAlpha: 0, x: 36 }, { autoAlpha: 1, x: 0, duration: 1.0 }, 40.4)
+  .fromTo('#arrowA', { strokeDasharray: 420, strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }, 41.4)
+  .fromTo('#arrowB', { strokeDasharray: 420, strokeDashoffset: 420 }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }, 42.0)
+  .fromTo('.recNote', { autoAlpha: 0, y: 12 }, { autoAlpha: .54, y: 0, duration: 1.0 }, 44.4)
+  .to('#arrowB', { autoAlpha: .18, duration: 1.0 }, 47.9)
+  .to('#recL', { x: 54, duration: 3.0, ease: 'sine.inOut' }, 48.4)
+  .fromTo('.ariLine .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .25, ease: 'expo.out' }, 48.0)
+  .to('#aristotle', { autoAlpha: 0, duration: .8 }, 54.7)
+  .set('#aristotle', { autoAlpha: 0 }, 55.7);
+
+/* ---- 4. limit / question (55.3–68.2) ---- */
+tl.addLabel('scene:limit', 55.2)
+  .set('#limit', { autoAlpha: 1 }, 55.2)
+  .set('#rainScene', { autoAlpha: 1 }, 55.2)
+  .set('#c4', { autoAlpha: 1 }, 55.0)
+  .fromTo('#c4', { scale: 1.04, x: -8 }, { scale: 1.14, x: 6, duration: 13.2, ease: 'none' }, 55.0)
+  .to('#c4', { autoAlpha: 0, duration: .8 }, 67.9)
+  .set('#c4', { autoAlpha: 0 }, 68.7)
+  .fromTo('#rainScene', { autoAlpha: 0, x: 0, y: 0, scale: .98 }, { autoAlpha: 1, x: -420, y: 10, scale: .9, duration: 1.8 }, 55.2)
+  .to('#dryhalf', { autoAlpha: .8, duration: 1.6 }, 55.6)
+  .fromTo('#limit .small', { autoAlpha: 0 }, { autoAlpha: .45, duration: 1.0 }, 55.6)
+  .fromTo('#limit .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.15, stagger: .3, ease: 'expo.out' }, 56.0)
+  .to('.limitRule', { scaleX: 1, duration: 1.2 }, 59.0)
+  .to('#limit', { autoAlpha: 0, duration: .7 }, 61.9)
+  .set('#limit', { autoAlpha: 0 }, 62.7)
+  .to('#rainScene', { autoAlpha: 0, duration: .7 }, 61.9)
+  .to('#dryhalf', { autoAlpha: 0, duration: .6 }, 61.9)
+  .set('#rainScene', { autoAlpha: 0 }, 62.7)
+  .to('#blackout', { autoAlpha: .94, duration: 1.0 }, 62.0)
+  .addLabel('scene:question', 61.9)
+  .set('#question', { autoAlpha: 1 }, 61.9)
+  .set('#qSmallFrame', { autoAlpha: 1 }, 62.2)
+  .fromTo('#qSmallFrame', { autoAlpha: 0, scale: .9 }, { autoAlpha: .55, scale: 1, duration: 1.4 }, 62.2)
+  .to('#qSmallFrame', { autoAlpha: 0, scale: .55, duration: 3.2, ease: 'power2.in' }, 63.8)
+  .fromTo('#qText .pre', { autoAlpha: 0 }, { autoAlpha: .55, duration: 1.0 }, 62.3)
+  .fromTo('#qText .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, stagger: .55, ease: 'expo.out' }, 62.6)
+  .to('#qRule', { scaleX: 1, duration: 1.0 }, 66.0)
+  .to('#question', { autoAlpha: 0, duration: .8 }, 67.2)
+  .set('#question', { autoAlpha: 0 }, 68.0);
+
+/* ---- 5. Freud (68.2–100.5) ---- */
+tl.addLabel('scene:freud', 68.1)
+  .set('#freud', { autoAlpha: 1 }, 68.1)
+  .set('#c5', { autoAlpha: 1 }, 68.0)
+  .fromTo('#c5', { scale: 1.02, x: -6 }, { scale: 1.10, x: 6, duration: 33.0, ease: 'none' }, 68.0)
+  .to('#blackout', { autoAlpha: .83, duration: 1.2 }, 68.0)
+  .set('#freudCard', { autoAlpha: 1 }, 68.3)
+  .fromTo('#freudCard', { autoAlpha: 0, x: -70, rotation: -1.8 }, { autoAlpha: 1, x: 0, rotation: 0, duration: 1.8, ease: 'expo.out' }, 68.3)
+  .to('#freudSweep', { x: 560, duration: 4.5, ease: 'sine.inOut' }, 69.6)
+  .set('#freudText', { autoAlpha: 1 }, 68.7)
+  .fromTo('#freudText', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1.2 }, 68.7)
+  .fromTo('#freudText .tag', { autoAlpha: 0 }, { autoAlpha: 1, duration: .9 }, 68.9)
+  .fromTo('#freudText .name', { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 1.1 }, 69.2)
+  .fromTo('#freudText .nameEn', { autoAlpha: 0 }, { autoAlpha: .45, duration: .9 }, 69.6)
+  .fromTo('#freudText .body .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, stagger: .3 }, 69.9)
+  .set('#freudStamp', { autoAlpha: 1 }, 71.6)
+  .fromTo('#freudStamp', { autoAlpha: 0, scale: 1.2, rotation: -7 }, { autoAlpha: 1, scale: 1, rotation: -4, duration: .6, ease: 'back.out(1.5)' }, 71.6)
+  .to('#freudText', { autoAlpha: 0, y: -16, duration: .7 }, 75.4)
+  .to('#freudCard', { autoAlpha: .30, x: -18, scale: .92, duration: 1.2 }, 75.5)
+  .to('#freudStamp', { autoAlpha: 0, duration: .6 }, 75.4)
+  .set('#loopWrap', { autoAlpha: 1 }, 75.7)
+  .fromTo('#loopWrap', { autoAlpha: 0, scale: .95, y: 20 }, { autoAlpha: 1, scale: 1, y: 0, duration: 1.4, ease: 'expo.out' }, 75.7)
+  .fromTo('#loopTitle', { autoAlpha: 0, y: -12 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 75.9)
+  .fromTo('.loopCard', { autoAlpha: 0, scale: .92 }, { autoAlpha: 1, scale: 1, duration: .9, stagger: .18 }, 76.4)
+  .fromTo('#loopRing .ring', { strokeDashoffset: 240 }, { strokeDashoffset: 0, duration: 8, ease: 'none' }, 76.2)
+  .fromTo('#orbit', { rotation: 0 }, { rotation: 220, duration: 18, ease: 'none', transformOrigin: '380px 350px' }, 76.2)
+  .set('#patternText', { autoAlpha: 1 }, 83.7)
+  .fromTo('#patternText', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 83.7)
+  .to('#freudCard', { autoAlpha: .12, duration: 1.2 }, 84.0)
+  .to('#loopWrap', { x: 60, y: -40, scale: .86, duration: 2.0, ease: 'sine.inOut' }, 84.0)
+  .to('#freud', { autoAlpha: 0, duration: .8 }, 93.4)
+  .set('#freud', { autoAlpha: 0 }, 94.2)
+  .to('#c5', { autoAlpha: 0, duration: .8 }, 93.4)
+  .set('#c5', { autoAlpha: 0 }, 94.2);
+
+/* ---- 6. coldness (93.5–100.5) ---- */
+tl.addLabel('scene:coldness', 93.4)
+  .set('#coldness', { autoAlpha: 1 }, 93.4)
+  .set('#c6', { autoAlpha: 1 }, 93.3)
+  .fromTo('#c6', { scale: 1.03, x: -6 }, { scale: 1.12, x: 8, duration: 7.2, ease: 'none' }, 93.3)
+  .to('#blackout', { autoAlpha: .45, duration: 1.2 }, 93.4)
+  .fromTo('#coldLead .a', { autoAlpha: 0, y: 12 }, { autoAlpha: .62, y: 0, duration: .9 }, 93.5)
+  .fromTo('#coldLead .b', { autoAlpha: 0, y: 12 }, { autoAlpha: .62, y: 0, duration: .9 }, 94.1)
+  .set('#choiceNot', { autoAlpha: 1 }, 95.2)
+  .fromTo('#choiceNot', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: .9 }, 95.2)
+  .to('#strikeNot', { scaleX: 1, duration: .7, ease: 'power2.inOut' }, 97.2)
+  .set('#choiceGhost', { autoAlpha: 1 }, 96.8)
+  .fromTo('#choiceGhost', { autoAlpha: 0, scale: .97, y: 8 }, { autoAlpha: .7, scale: 1, y: 0, duration: 1.0 }, 96.8)
+  .set('#choiceIs', { autoAlpha: 1 }, 96.8)
+  .fromTo('#choiceIs', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1.1, ease: 'expo.out' }, 96.8)
+  .to('#choiceGhost', { autoAlpha: .12, scale: 1.04, x: 16, duration: 2.2, ease: 'sine.inOut' }, 98.0)
+  .to('#coldness', { autoAlpha: 0, duration: .5 }, 100.35)
+  .set('#coldness', { autoAlpha: 0 }, 100.9)
+  .to('#c6', { autoAlpha: 0, duration: .7 }, 100.3)
+  .set('#c6', { autoAlpha: 0 }, 101.1)
+  .set('#flash', { autoAlpha: 0 }, 100.38)
+  .to('#flash', { autoAlpha: 1, duration: .10, ease: 'power2.in' }, 100.38)
+  .to('#flash', { autoAlpha: 0, duration: .55, ease: 'power2.out' }, 100.5)
+  .to('#burnEdge', { autoAlpha: .7, duration: .25 }, 100.42)
+  .to('#burnEdge', { autoAlpha: 0, duration: 1.2 }, 100.8);
+
+/* ---- 7. turn (100.5–106.6) ---- */
+tl.addLabel('scene:turn', 100.4)
+  .set('#turn', { autoAlpha: 1 }, 100.42)
+  .set('#blackout', { autoAlpha: .96 }, 100.42)
+  .fromTo('#turnExplain', { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: 'expo.out' }, 100.7)
+  .fromTo('#turnMore', { autoAlpha: 0 }, { autoAlpha: 1, duration: .9 }, 102.6)
+  .fromTo('#turnQuote', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 103.5)
+  .to('#turnStrike', { scaleX: 1, duration: .55, ease: 'power2.inOut' }, 104.35)
+  .fromTo('#turnNot', { autoAlpha: 0, scale: 1.45, rotation: -10 }, { autoAlpha: 1, scale: 1, rotation: -5, duration: .45, ease: 'power4.in' }, 104.55)
+  .to('#turnNot', { autoAlpha: .92, duration: .3 }, 105.0)
+  .to('#turn', { autoAlpha: 0, duration: .6 }, 106.3)
+  .set('#turn', { autoAlpha: 0 }, 107.0)
+  .to('#blackout', { autoAlpha: .44, duration: 1.0 }, 106.3);
+
+/* ---- 8. responsibility (106.6–120.1) ---- */
+tl.addLabel('scene:responsibility', 106.4)
+  .set('#responsibility', { autoAlpha: 1 }, 106.4)
+  .set('#c6', { autoAlpha: 1 }, 106.3)
+  .fromTo('#c6', { scale: 1.10, x: 8 }, { scale: 1.04, x: -4, duration: 14.5, ease: 'none' }, 106.3)
+  .to('#c6', { autoAlpha: 0, duration: .8 }, 119.8)
+  .set('#c6', { autoAlpha: 0 }, 120.6)
+  .set('#respA', { autoAlpha: 1 }, 106.6)
+  .fromTo('#respA', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .9 }, 106.6)
+  .to('#respA', { autoAlpha: 0, y: -14, duration: .6 }, 110.3)
+  .set('#respB', { autoAlpha: 1 }, 110.5)
+  .fromTo('#respB', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .9 }, 110.5)
+  .to('#respB', { autoAlpha: 0, y: -14, duration: .6 }, 114.0)
+  .set('#respC', { autoAlpha: 1 }, 114.2)
+  .fromTo('#respC', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 114.2)
+  .to('#responsibility', { autoAlpha: 0, duration: .7 }, 119.9)
+  .set('#responsibility', { autoAlpha: 0 }, 120.7)
+  .to('#blackout', { autoAlpha: .80, duration: 1.0 }, 120.0);
+
+/* ---- 9. mirror (120.1–137.9) ---- */
+tl.addLabel('scene:reflection', 120.0)
+  .set('#mirrorScene', { autoAlpha: 1 }, 120.0)
+  .set('#c7', { autoAlpha: 1 }, 120.0)
+  .fromTo('#c7', { scale: 1.05, x: -6 }, { scale: 1.12, x: 6, duration: 18.0, ease: 'none' }, 120.0)
+  .to('#c7', { autoAlpha: 0, duration: .8 }, 137.5)
+  .set('#c7', { autoAlpha: 0 }, 138.3)
+  .set('#mirror', { autoAlpha: 1 }, 120.2)
+  .fromTo('#mirror', { autoAlpha: 0, x: 50, scale: .97 }, { autoAlpha: 1, x: 0, scale: 1, duration: 1.6, ease: 'expo.out' }, 120.2)
+  .fromTo('#mirror video', { scale: 1.06 }, { scale: 1.14, duration: 17.0, ease: 'none' }, 120.2)
+  .set('#mirrorIntro', { autoAlpha: 1 }, 120.4)
+  .fromTo('#mirrorIntro', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 120.4)
+  .fromTo('#mirrorIntro .txt', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.0 }, 120.7)
+  .to('#mirrorIntro', { autoAlpha: 0, y: -12, duration: .7 }, 126.2)
+  .set('#q1', { autoAlpha: 1 }, 126.5)
+  .fromTo('#q1', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: .9 }, 126.5)
+  .fromTo('#q1 .txt', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 126.7)
+  .to('#q1', { autoAlpha: 0, y: -14, duration: .6 }, 132.7)
+  .set('#q2', { autoAlpha: 1 }, 132.9)
+  .fromTo('#q2', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: .9 }, 132.9)
+  .fromTo('#q2 .txt', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 133.1)
+  .fromTo('#q2 .ghost', { autoAlpha: 0 }, { autoAlpha: .8, duration: 1.0 }, 133.5)
+  .to('#q2 .ghost', { autoAlpha: .25, duration: 1.0 }, 134.2)
+  .to('#mirrorGhost', { x: 18, y: -10, opacity: .22, duration: 2.4, ease: 'sine.inOut' }, 133.2)
+  .to('#mirrorScene', { autoAlpha: 0, duration: .8 }, 137.5)
+  .set('#mirrorScene', { autoAlpha: 0 }, 138.3)
+  .to('#blackout', { autoAlpha: .66, duration: 1.0 }, 137.7);
+
+/* ---- 10. Kant (137.9–155.3) ---- */
+tl.addLabel('scene:kant', 137.8)
+  .set('#kant', { autoAlpha: 1 }, 137.8)
+  .set('#c8', { autoAlpha: 1 }, 137.6)
+  .fromTo('#c8', { scale: 1.04, x: -6 }, { scale: 1.12, x: 6, duration: 18.0, ease: 'none' }, 137.6)
+  .to('#c8', { autoAlpha: 0, duration: .8 }, 154.9)
+  .set('#c8', { autoAlpha: 0 }, 155.7)
+  .set('#kantCard', { autoAlpha: 1 }, 138.0)
+  .fromTo('#kantCard', { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 1.2 }, 138.0)
+  .fromTo('#kantCap', { autoAlpha: 0 }, { autoAlpha: .5, duration: .9 }, 138.8)
+  .fromTo('#kantText .tag', { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, 138.2)
+  .fromTo('#kantMain .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.15, stagger: .3, ease: 'expo.out' }, 138.5)
+  .to('#barA', { scaleY: 1, duration: 1.4, ease: 'power2.out' }, 144.8)
+  .to('#barB', { scaleY: 1, duration: 1.4, ease: 'power2.out' }, 149.8)
+  .set('#kantA', { autoAlpha: 1 }, 145.0)
+  .fromTo('#kantA', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .9 }, 145.0)
+  .to('#kantA', { autoAlpha: 0, y: -12, duration: .6 }, 149.8)
+  .set('#kantB', { autoAlpha: 1 }, 150.0)
+  .fromTo('#kantB', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .9 }, 150.0)
+  .to('#kant', { autoAlpha: 0, duration: .7 }, 155.0)
+  .set('#kant', { autoAlpha: 0 }, 155.8)
+  .to('#blackout', { autoAlpha: .95, duration: 1.0 }, 155.1);
+
+/* ---- 11. the small sentence (155.3–167.6) ---- */
+tl.addLabel('scene:small-words', 155.2)
+  .set('#smallWords', { autoAlpha: 1 }, 155.2)
+  .set('#c9', { autoAlpha: 1 }, 155.0)
+  .fromTo('#c9', { scale: 1.02, x: -4 }, { scale: 1.10, x: 4, duration: 12.6, ease: 'none' }, 155.0)
+  .to('#c9', { autoAlpha: 0, duration: .7 }, 167.3)
+  .set('#c9', { autoAlpha: 0 }, 168.1)
+  .set('#intertitle', { autoAlpha: 1 }, 155.3)
+  .fromTo('#intertitle', { autoAlpha: 0, scale: .98, y: 14 }, { autoAlpha: 1, scale: 1, y: 0, duration: 1.1, ease: 'expo.out' }, 155.3)
+  .fromTo('#intertitle .tag', { autoAlpha: 0 }, { autoAlpha: .82, duration: .8 }, 155.7)
+  .fromTo('#intertitle .line > span', { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: .4, ease: 'expo.out' }, 156.2)
+  .to('#intertitle', { autoAlpha: 0, y: -14, duration: .8 }, 160.2)
+  .set('#intertitle', { autoAlpha: 0 }, 161.1)
+  .set('#rainScene', { autoAlpha: 1 }, 160.3)
+  .fromTo('#rainScene', { autoAlpha: 0, x: 0, y: 16, scale: 1 }, { autoAlpha: 1, x: 0, y: 0, scale: 1.02, duration: 1.6 }, 160.3)
+  .to('#umb', { rotation: 0, duration: 4.0, ease: 'sine.inOut' }, 160.8)
+  .to('#figRpos', { x: 0, duration: 4.0, ease: 'sine.inOut' }, 160.8)
+  .to('#dryhalf', { autoAlpha: 0, duration: 2.0 }, 160.8)
+  .to('#wet, .wet', { opacity: .25, duration: 3.0 }, 161.0)
+  .set('#afterWords', { autoAlpha: 1 }, 161.2)
+  .fromTo('#afterWords .a', { autoAlpha: 0 }, { autoAlpha: .55, duration: .8 }, 161.2)
+  .fromTo('#afterWords .b', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 162.0)
+  .to('#smallWords', { autoAlpha: 0, duration: .8 }, 167.2)
+  .set('#smallWords', { autoAlpha: 0 }, 168.1);
+
+/* ---- 12. practice (167.6–184.1) ---- */
+tl.addLabel('scene:practice', 167.4)
+  .set('#practice', { autoAlpha: 1 }, 167.4)
+  .set('#c10', { autoAlpha: 1 }, 167.4)
+  .fromTo('#c10', { scale: 1.03, x: -6 }, { scale: 1.11, x: 6, duration: 16.6, ease: 'none' }, 167.4)
+  .to('#c10', { autoAlpha: 0, duration: .8 }, 183.6)
+  .set('#c10', { autoAlpha: 0 }, 184.4)
+  .to('#blackout', { autoAlpha: .42, duration: 1.2 }, 167.6)
+  .to('#rainScene', { x: 340, y: 40, scale: .94, duration: 2.0, ease: 'sine.inOut' }, 167.6)
+  .to('#rainScene', { autoAlpha: .72, duration: 2.0 }, 167.6)
+  .set('#pracA', { autoAlpha: 1 }, 167.6)
+  .fromTo('#pracA .txt', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 167.7)
+  .to('#pracA', { autoAlpha: .2, duration: .8 }, 172.0)
+  .set('#pracB', { autoAlpha: 1 }, 172.2)
+  .fromTo('#pracB .txt', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 1.0 }, 172.3)
+  .to('#pracRule', { scaleX: 1, duration: 1.0 }, 175.4)
+  .to('#pracB', { autoAlpha: 0, duration: .7 }, 179.2)
+  .set('#pracC', { autoAlpha: 1 }, 179.4)
+  .fromTo('#pracC .txt', { autoAlpha: 0, y: 22 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 179.5)
+  .to('#pracC .outline', { color: 'rgba(239,230,214,.92)', duration: 1.6, ease: 'sine.inOut' }, 181.6)
+  .to('#practice', { autoAlpha: 0, duration: .8 }, 183.8)
+  .set('#practice', { autoAlpha: 0 }, 184.6);
+
+/* ---- 13. ending (184.1–194) ---- */
+tl.addLabel('scene:ending', 183.9)
+  .set('#ending', { autoAlpha: 1 }, 183.9)
+  .set('#endLine', { autoAlpha: 1 }, 184.2)
+  .set('#c11', { autoAlpha: 1 }, 184.0)
+  .fromTo('#c11', { scale: 1.04, x: -6 }, { scale: 1.12, x: 4, duration: 14.2, ease: 'none' }, 184.0)
+  .to('#c11', { autoAlpha: 0, duration: 1.0 }, 197.4)
+  .to('#blackout', { autoAlpha: .16, duration: 1.4 }, 184.0)
+  .to('#rainScene', { autoAlpha: 1, x: 160, y: 0, scale: 1.02, duration: 2.0, ease: 'sine.inOut' }, 184.0)
+  .to('#rainScene', { x: 190, y: -6, scale: 1.05, duration: 9.0, ease: 'none' }, 186.0)
+    
+  .to('#selfLight', { autoAlpha: .8, duration: 1.4 }, 186.6)
+  .to('#selfLight', { autoAlpha: .55, duration: 2.0 }, 188.0)
+  .fromTo('#endLine .txt', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1.3 }, 184.3)
+  .to('#endRule', { scaleX: 1, duration: 1.2 }, 189.0)
+  .set('#endLine2', { autoAlpha: 1 }, 189.4)
+  .fromTo('#endLine2 .txt', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 189.4)
+  .to('#rainScene', { x: 150, scale: 1.0, duration: 4.0, ease: 'sine.inOut' }, 191.0)
+  .to('#ending', { autoAlpha: 0, duration: 1.0 }, 193.4)
+  .set('#ending', { autoAlpha: 0 }, 194.4)
+  .to('#rainScene', { autoAlpha: 0, duration: 1.0 }, 193.4)
+  .to('#selfLight', { autoAlpha: 0, duration: .8 }, 193.4)
+  .set('#selfLight', { autoAlpha: 0 }, 194.3)
+  .set('#rainScene', { autoAlpha: 0 }, 194.4)
+  .to('#blackout', { autoAlpha: 1, duration: 1.4 }, 193.4);
+
+/* ---- 14. credits (194.4–198.366) ---- */
+tl.addLabel('scene:credits', 194.2)
+  .set('#credits', { autoAlpha: 1 }, 194.2)
+  .fromTo('#credits .tag', { autoAlpha: 0 }, { autoAlpha: .8, duration: 1.0 }, 194.3)
+  .fromTo('#credits .title', { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 1.1 }, 194.5)
+  .to('#credits .rule', { scaleX: 1, duration: 1.2, ease: 'expo.inOut' }, 195.0)
+  .fromTo('#credits .cols, #credits .note', { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 1.0, stagger: .12 }, 195.4)
+  .to('#blackout', { autoAlpha: 1, duration: .4 }, 197.9);
+
+/* ---- subtitles ---- */
+CUES.forEach((c, i) => {
+  if (i === 0) return;
+  tl.set(subEls[i], { autoAlpha: 1 }, c[0] + 0.01);
+  tl.set(subEls[i], { autoAlpha: 0 }, c[1] - 0.01);
+});
+tl.to('#credit', { autoAlpha: 0, duration: .8 }, 193.8);
+
+/* rain via the timeline clock */
+OM.clock(tl, drawRain, DUR);
+
+window.__timelines['film'] = tl;
+</script>
+</body>
+</html>

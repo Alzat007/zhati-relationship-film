@@ -1,0 +1,14 @@
+.DS_Store
+.om/
+out/
+output/
+assets/
+node_modules/
+__pycache__/
+*.pyc
+*.wav
+*.mp4
+*.mov
+*.m4a
+*.mkv
+*.webm

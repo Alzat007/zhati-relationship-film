@@ -1,0 +1,5 @@
+#!/bin/sh
+# Create a new episode project.
+# Usage: bin/new-episode <slug> [--ref /path/to/master] [--base /path/to/workspace] [--no-assets]
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+exec "$ROOT/scripts/new_episode.sh" "$@"
