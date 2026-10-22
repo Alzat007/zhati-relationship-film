@@ -1,9 +1,9 @@
 ---
 name: zhati-relationship-film
-description: "生成扎提风格的 3 分钟中文男女关系/爱情影像随笔：素材可按客户要求随时替换（客户实拍、公版电影、授权 stock、照片、纯文字、混合），雨伞/雨/胶片视觉脊柱、宋体动效、3:4 封面。Use when the user asks for a relationship/love essay video, a client-customized episode, or a new episode in the style of 《好人与错的人》."
+description: "生成扎提风格的 3 分钟中文男女关系/爱情影像随笔：素材可按客户要求随时替换（客户实拍、公版电影、AI 联网找的免费 stock、照片、纯文字、混合），雨伞/雨/胶片视觉脊柱、宋体动效、3:4 封面。Use when the user asks for a relationship/love essay video, a client-customized episode, or a new episode in the style of 《好人与错的人》."
 metadata:
   author: "zhati"
-  version: "1.1.0"
+  version: "1.2.0"
   based_on: "good-people-wrong-person · 2026-10-22"
 ---
 
@@ -18,6 +18,8 @@ metadata:
 **固定**：16 拍叙事语法、字体/色板/运动/声音标准、3:4 封面、来源与伦理硬门、QA。
 
 **可变**：文案、旁白、音乐、电影/客户实拍/产品/照片/授权 stock、人物肖像、封面背景、发布文案。
+
+**AI 可以自己找背景视频**：客户没有素材时，用 `scripts/stock_search.py` 搜 Mixkit/Coverr/Pexels/Pixabay，选 3 个候选，用 `scripts/fetch_stock.py` 下载、去音轨、标准化、写 manifest。详见 `references/stock-sources.md`。
 
 母版的《第七天堂》、弗洛伊德/亚里士多德/康德，只是**参考实现**，不是每一期必须出现的素材。客户要真实门店，就用客户素材；客户要影史案例，就换 2–3 部公版片；客户没有素材，就做纯文字/图形。不要为了“系列感”硬套一部电影或一张脸。
 
@@ -181,6 +183,7 @@ $SKILL/scripts/new_episode.sh my-episode-slug --base "$HOME/relationship-films"
 
 - **客户实拍/照片/产品/门店**：优先；写清授权/肖像同意；人脸保持真实，别过度磨皮；产品只作为“关系中的物”，不要做成硬广。
 - **公版电影**：可以继续《第七天堂》，也可以换 1–3 部公版片；去音轨、补帧、抽静帧、逐片标注。
+- **AI 自己找免费 stock**：客户没有素材时，先搜 3 个候选给客户看；确认后用 `scripts/fetch_stock.py` 下载/标准化。不要从 YouTube/流媒体/版权片扒；不要绕过水印/付费墙。来源、license、credit 写进 manifest。
 - **授权 stock**：保留 license/订单；不要用带水印预览。
 - **照片/档案/肖像**：标明照片/雕像/绘画；公版或客户授权；不要 AI 生成冒充历史人物。
 - **纯文字/图形**：没有 footage 时，让字和留白成为画面；不要硬塞电影。
@@ -254,12 +257,14 @@ my-episode-slug/output/
 - 不要在 3:4 封面里直接裁 16:9 正片；用 `cover/cover.html` 重新排。
 - 不要把哲学家/专家的话写成“名言”并加引号；用“他讨论过/一种理解角度”。
 - 不要在客户没授权时使用版权片、客户人脸、聊天记录或未公开产品。
+- 不要从 YouTube/B站/流媒体/版权片直接下载背景；不要绕过水印、付费墙或地区限制；只用明确允许的免费/授权 stock。
 - 不要用“吸渣体质”“恋爱脑”这类诊断式标签做标题；用问题，不用判决。
 
 ## 文件地图
 
 - `references/client-brief.md`：客户 brief、内容矩阵、确认点。
 - `references/asset-strategy.md`：客户实拍/公版/stock/照片/纯文字/混合，多源统一、素材槽、manifest。
+- `references/stock-sources.md`：Mixkit/Coverr/Pexels/Pixabay/Commons 的搜索、许可、下载与 credit。
 - `references/beat-sheet.md`：16 拍结构、比例、画面事件、文案功能。
 - `references/visual-system.md`：色板、字体、镜头、伞/雨、声音、封面。
 - `references/text-slots.md`：逐项替换清单。
@@ -275,3 +280,5 @@ my-episode-slug/output/
 - `scripts/render_cover.sh`：把 `cover/cover.html` 渲染成 1080×1440 PNG/JPG。
 - `scripts/verify.sh`：check/qa/ffprobe/解码/响度。
 - `scripts/asset_report.py`：检查素材 manifest 的文件/权利/credit/scenes。
+- `scripts/stock_search.py`：联网搜免费 stock，输出候选/页面/license。
+- `scripts/fetch_stock.py`：下载、去音轨、标准化 1920×1080/30fps，并更新 manifest。

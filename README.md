@@ -34,6 +34,25 @@ A reusable agent skill for client-customized 3-minute Chinese relationship video
 
 母版里的电影/肖像只是**参考实现**。客户不需要电影，就不放电影；客户要真实素材，就优先真实素材。完整选择见 [`references/asset-strategy.md`](references/asset-strategy.md)，客户问题清单见 [`references/client-brief.md`](references/client-brief.md)。
 
+## AI 自己找背景视频
+
+客户没有实拍时，agent 可以联网搜免费 stock，下载、去音轨、标准化，再做动效。
+
+```sh
+# 1. 搜 3–6 个候选（Mixkit 不需要 key）
+python3 scripts/stock_search.py "rain window" --limit 6
+
+# 2. 选一个，下载 + 标准化 + 写入 manifest
+python3 scripts/fetch_stock.py   --url 'https://assets.mixkit.co/videos/2846/2846-1080.mp4'   --slug rain-window   --source Mixkit   --page 'https://mixkit.co/free-stock-video/rain/'   --license 'Mixkit License'   --credit 'Mixkit — Window on a rainy day'   --project .   --slot clip_01   --scenes hook,umbrella   --max-duration 10
+```
+
+- **Mixkit**：无需 key，短英文 query 最稳（rain / window / hands / night street / train）。
+- **Coverr**：可手动给页面/直链；搜索页是前端渲染，自动结果需要人工核对。
+- **Pexels / Pixabay**：可选免费 API key，设置 `PEXELS_API_KEY` / `PIXABAY_API_KEY` 后参与搜索。
+- **Wikimedia Commons / Internet Archive**：公版/CC 影像，按文件页授权和署名使用。
+- 不要从 YouTube、B 站、流媒体、版权电影里扒；不要绕过水印/付费墙。
+- 默认给客户 3 个候选 + 页面 + license；客户确认后再下载。授权/credit 记录见 [`references/stock-sources.md`](references/stock-sources.md)。
+
 默认输出：
 
 | 项 | 默认 |
@@ -62,6 +81,7 @@ cd zhati-relationship-film
 - 一个 **master 工程**：包含 `vendor/`、一套起始素材（电影/照片/肖像/字体/纹理）和一条占位音轨。仓库只提供模板，不包含这些资产（体积/权利原因）。
 - 客户素材或授权 stock（可选；有就优先用）。
 - 可选：本地声音克隆（例如 `macos-local-voice` skill）来做本人声线。
+- 可选：`PEXELS_API_KEY` / `PIXABAY_API_KEY`，用于扩展 stock 搜索；Mixkit 不需要 key。
 
 ## 快速开始
 
@@ -132,6 +152,7 @@ examples/cues.example.json    字幕/时间轴输入示例
 references/
   client-brief.md             客户问题清单、内容矩阵、确认点
   asset-strategy.md           客户实拍/公版/stock/照片/纯文字/混合、素材槽、manifest
+  stock-sources.md            联网找免费 stock：Mixkit/Coverr/Pexels/Pixabay/Commons、许可、下载、credit
   beat-sheet.md               16 拍结构
   visual-system.md            色板/字体/伞/雨/声音/封面
   text-slots.md               逐项替换清单
@@ -156,6 +177,8 @@ scripts/
   render_cover.sh
   verify.sh
   asset_report.py
+  stock_search.py
+  fetch_stock.py
 ```
 
 ## 不包含什么
@@ -169,6 +192,7 @@ scripts/
 
 ## 版本
 
+- **v1.2.0**：AI 可联网搜索免费背景视频（Mixkit/Coverr/Pexels/Pixabay），新增 `stock_search.py`、`fetch_stock.py` 和 stock 授权指南；下载后自动去音轨/标准化/写 manifest。
 - **v1.1.0**：素材/内容可按客户要求替换；新增 client brief、asset strategy、素材 manifest、asset_report、模板 `data-asset-slot`；脚手架改为“最新模板代码 + master 起始素材”。
 - **v1.0.0**：首个公开版本。
 

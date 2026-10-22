@@ -16,7 +16,7 @@
 - [ ] 4. 生成新旁白 + `cues.json`；不要用母版音频。
 - [ ] 5. `bin/new-episode <slug>` 建工程；代码来自最新模板，母版只提供起始素材。
 - [ ] 6. 按 `references/text-slots.md` 换掉所有旧文案。
-- [ ] 7. 按 `references/asset-strategy.md` 换素材：放进 `assets/imported/`，填 `assets.manifest.json`，改 `data-asset-slot` 的 `src`；跑 `scripts/asset_report.py`。
+- [ ] 7. 按 `references/asset-strategy.md` 换素材：客户素材放进 `assets/imported/`；没有就 `scripts/stock_search.py` 搜 3 个候选，客户确认后用 `scripts/fetch_stock.py` 下载/标准化；填 `assets.manifest.json`，改 `data-asset-slot` 的 `src`；跑 `scripts/asset_report.py`。
 - [ ] 8. 按 `references/retiming.md` 重排所有场景/视频窗口/字幕。
 - [ ] 9. 替换 `assets/score.wav`；`scripts/cues_to_srt.py` 出 SRT。
 - [ ] 10. `om check . --samples 6`；逐场景 `om still`；先给客户看钩子/封面静帧。

@@ -40,14 +40,17 @@
 - 去原音轨；补到整数帧；标注片名/年份/“非真实案例”。
 - 一部片可以贯穿，也可以 2–3 部片按段落切换；每部片都要单独 credit。
 
-### C. 授权 stock / 客户授权片段
+### C. 授权 stock / AI 联网找的免费 stock
 
 适合：缺具体场景、需要城市/雨/手/门/车站等通用镜头。
 
 做法：
-- 保留 license 证明/订单号；不要用带水印的预览。
+- 客户没有素材时，AI 可以先搜 3–6 个候选（Mixkit/Coverr/Pexels/Pixabay/Commons），给客户看页面 + license + 缩略图；确认后再下载。
+- 用 `scripts/stock_search.py` 搜，`scripts/fetch_stock.py` 下载/去音轨/标准化/写 manifest。
+- 保留 license 证明/订单号/页面；不要用带水印的预览；不要从 YouTube/B站/流媒体/版权片扒。
 - 授权范围要覆盖平台/地区/时长；不确定就问客户。
 - 统一调色；在来源记录里写清平台/作者/license。
+- 详细规则见 `references/stock-sources.md`。
 
 ### D. 公版肖像 / 档案照片
 

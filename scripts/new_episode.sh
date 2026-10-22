@@ -93,7 +93,7 @@ cp "$SKILL_DIR/templates/assets.manifest.example.json" "$TARGET/assets.manifest.
 
 # Operator scripts the project README refers to. new_episode.sh stays in the skill.
 mkdir -p "$TARGET/scripts"
-for f in prepare_media.sh render.sh render_cover.sh verify.sh asset_report.py cues_to_srt.py replace_cues.py retime_scene.py; do
+for f in prepare_media.sh render.sh render_cover.sh verify.sh asset_report.py stock_search.py fetch_stock.py cues_to_srt.py replace_cues.py retime_scene.py; do
   cp "$SKILL_DIR/scripts/$f" "$TARGET/scripts/$f"
 done
 chmod +x "$TARGET"/scripts/*.sh "$TARGET"/scripts/*.py
@@ -114,7 +114,7 @@ cat > "$TARGET/README.md" <<MD
 1. 填 \`BRIEF.md\`：客户、平台、时长、素材模式、权利、声音。
 2. 写 \`文稿.txt\`，再生成新旁白和逐句时间。
 3. 读 \`references/text-slots.md\`，逐项替换 \`index.html\` 的旧文案。
-4. 读 \`references/asset-strategy.md\`：把客户/公版/stock 素材放进 \`assets/imported/\`，填 \`assets.manifest.json\`，改 \`data-asset-slot\` 的 \`src\`，重算视频窗口。
+4. 读 \`references/asset-strategy.md\`：客户素材放进 \`assets/imported/\`；没有就用 \`scripts/stock_search.py\` 搜 3 个候选，确认后用 \`scripts/fetch_stock.py\` 下载/标准化；填 \`assets.manifest.json\`，改 \`data-asset-slot\` 的 \`src\`，重算视频窗口。
 5. 读 \`references/retiming.md\`，按新旁白重排时间轴。
 6. 替换 \`assets/score.wav\`；当前是母版占位音轨。
 7. 渲染前跑 \`python3 scripts/asset_report.py --manifest assets.manifest.json --project .\` 和 \`om check . --samples 6\`。

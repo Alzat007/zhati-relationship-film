@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.2.0 — 2026-10-22
+
+- AI 可联网搜索免费背景视频：新增 `references/stock-sources.md`、`scripts/stock_search.py`、`scripts/fetch_stock.py`。
+- 支持 Mixkit（无需 key）、Coverr（手动/直链）、Pexels/Pixabay（API key）、Wikimedia Commons/Internet Archive（公版/CC）。
+- `fetch_stock.py` 自动下载、去音轨、标准化 1920×1080/30fps、写 metadata 并更新 `assets.manifest.json`。
+- README/SKILL/asset-strategy/client-brief/rights/workflow 同步补充 stock 搜索、候选确认、license/credit 和“不扒版权片”的边界。
+
 ## v1.1.0 — 2026-10-22
 
 - **素材/内容不再绑定单一电影**：支持客户实拍、公版电影、授权 stock、照片·档案、纯文字和混合。
