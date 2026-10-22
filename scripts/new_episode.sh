@@ -46,21 +46,12 @@ if [[ "$WITH_ASSETS" -eq 1 && ! -d "$REF/assets" ]]; then
   exit 1
 fi
 
-mkdir -p "$TARGET"/{assets/{movies,stills,portraits,fonts,textures},cover,vendor,out,output}
+mkdir -p "$TARGET"/{assets/{movies,stills,portraits,fonts,textures,imported},cover,vendor,out,output}
 
-# Code: prefer the master project, fall back to the skill's template.
-if [[ -f "$REF/index.html" ]]; then
-  cp "$REF/index.html" "$TARGET/index.html"
-else
-  cp "$SKILL_DIR/templates/index.template.html" "$TARGET/index.html"
-  echo "warning: master index.html not found at $REF; used skill template" >&2
-fi
-
-if [[ -f "$REF/cover/cover.html" ]]; then
-  cp "$REF/cover/cover.html" "$TARGET/cover/cover.html"
-else
-  cp "$SKILL_DIR/templates/cover-3x4.template.html" "$TARGET/cover/cover.html"
-fi
+# Code: always use the skill's latest template, not the master's old composition.
+# The master is an asset/reference source; the template is the code.
+cp "$SKILL_DIR/templates/index.template.html" "$TARGET/index.html"
+cp "$SKILL_DIR/templates/cover-3x4.template.html" "$TARGET/cover/cover.html"
 
 if [[ -d "$REF/vendor" ]]; then
   cp -R "$REF/vendor/." "$TARGET/vendor/"
@@ -98,6 +89,14 @@ cp "$SKILL_DIR/templates/episode-brief.template.md" "$TARGET/BRIEF.md"
 cp "$SKILL_DIR/templates/treatment.template.md" "$TARGET/treatment.md"
 cp "$SKILL_DIR/templates/sources.template.md" "$TARGET/素材来源.md"
 cp "$SKILL_DIR/templates/publish-copy.template.md" "$TARGET/发布文案.md"
+cp "$SKILL_DIR/templates/assets.manifest.example.json" "$TARGET/assets.manifest.json"
+
+# Operator scripts the project README refers to. new_episode.sh stays in the skill.
+mkdir -p "$TARGET/scripts"
+for f in prepare_media.sh render.sh render_cover.sh verify.sh asset_report.py cues_to_srt.py replace_cues.py retime_scene.py; do
+  cp "$SKILL_DIR/scripts/$f" "$TARGET/scripts/$f"
+done
+chmod +x "$TARGET"/scripts/*.sh "$TARGET"/scripts/*.py
 
 cat > "$TARGET/文稿.txt" <<'TXT'
 # 把新一期旁白粘贴到这里；一段一行，方便生成字幕。
@@ -112,12 +111,13 @@ cat > "$TARGET/README.md" <<MD
 
 ## 先做
 
-1. 填 \`BRIEF.md\`，把新主题、平台、时长、声音、片源定下来。
+1. 填 \`BRIEF.md\`：客户、平台、时长、素材模式、权利、声音。
 2. 写 \`文稿.txt\`，再生成新旁白和逐句时间。
-3. 读 skill 的 \`references/text-slots.md\`，逐项替换 \`index.html\` 的旧文案。
-4. 读 \`references/retiming.md\`，按新旁白重排时间轴。
-5. 替换 \`assets/score.wav\`；当前是母版占位音轨。
-6. 渲染前跑 \`om check . --samples 6\`。
+3. 读 \`references/text-slots.md\`，逐项替换 \`index.html\` 的旧文案。
+4. 读 \`references/asset-strategy.md\`：把客户/公版/stock 素材放进 \`assets/imported/\`，填 \`assets.manifest.json\`，改 \`data-asset-slot\` 的 \`src\`，重算视频窗口。
+5. 读 \`references/retiming.md\`，按新旁白重排时间轴。
+6. 替换 \`assets/score.wav\`；当前是母版占位音轨。
+7. 渲染前跑 \`python3 scripts/asset_report.py --manifest assets.manifest.json --project .\` 和 \`om check . --samples 6\`。
 
 ## 母版
 
@@ -140,3 +140,5 @@ echo "  $SKILL_DIR/references/text-slots.md"
 echo "  $SKILL_DIR/references/retiming.md"
 echo "  $SKILL_DIR/references/rights-and-ethics.md"
 echo "replace assets/score.wav before final render."
+echo "fill assets.manifest.json and run: python3 scripts/asset_report.py --manifest assets.manifest.json --project ."
+echo "the master assets are a starter kit; replace them per client brief."

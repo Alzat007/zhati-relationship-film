@@ -1,27 +1,38 @@
 ---
 name: zhati-relationship-film
-description: "生成扎提风格的 3 分钟中文男女关系/爱情影像随笔：公版经典电影片段做底、雨伞/雨/胶片视觉脊柱、哲学家肖像与宋体动效、3:4 封面。Use when the user asks for a relationship/love essay video, a new episode in the style of 《好人与错的人》, or a 3-minute emotional film with classic film clips."
+description: "生成扎提风格的 3 分钟中文男女关系/爱情影像随笔：素材可按客户要求随时替换（客户实拍、公版电影、授权 stock、照片、纯文字、混合），雨伞/雨/胶片视觉脊柱、宋体动效、3:4 封面。Use when the user asks for a relationship/love essay video, a client-customized episode, or a new episode in the style of 《好人与错的人》."
 metadata:
   author: "zhati"
-  version: "1.0.0"
+  version: "1.1.0"
   based_on: "good-people-wrong-person · 2026-10-22"
 ---
 
 # 扎提·关系影像随笔
 
-这是从成片《为什么有些好人，会和错的人交往？》提炼出来的可复用工作流。目标不是复刻同一篇文案，而是让新一期保持同一套**视觉 DNA**：
+这是从成片《为什么有些好人，会和错的人交往？》提炼出来的可复用工作流。目标不是复刻同一篇文案，而是让新一期保持同一套**制作方法**：
 
-> 老电影放映机里的一场雨 + 一把始终倾向对方的伞 + 宋体大字 + 哲学家肖像 + 克制的旁白。
+> 一个有具体物的关系故事 + 宋体大字 + 电影/实拍/照片的质感 + 克制的旁白 + 3:4 封面。
+
+## 固定的是方法，不是素材
+
+**固定**：16 拍叙事语法、字体/色板/运动/声音标准、3:4 封面、来源与伦理硬门、QA。
+
+**可变**：文案、旁白、音乐、电影/客户实拍/产品/照片/授权 stock、人物肖像、封面背景、发布文案。
+
+母版的《第七天堂》、弗洛伊德/亚里士多德/康德，只是**参考实现**，不是每一期必须出现的素材。客户要真实门店，就用客户素材；客户要影史案例，就换 2–3 部公版片；客户没有素材，就做纯文字/图形。不要为了“系列感”硬套一部电影或一张脸。
+
+详细选择见 `references/client-brief.md` 和 `references/asset-strategy.md`。
 
 ## 先判断是否适用
 
 适用：
 - 男女关系、爱情、亲密关系、边界、自我价值、付出与回报、分手与复合等中文情感议题。
+- 品牌/机构想讲“关系、边界、尊重、陪伴”的客户故事，且适合散文式表达。
 - 用户想要 2:40–3:40 的横屏影像随笔，有旁白、有字幕、有电影感。
 - 用户明确说“按《好人与错的人》那个风格”“用之前那个模板”“做成系列”。
 
 不适用：
-- 产品发布片、带货片、快节奏混剪、纯口播视频。
+- 纯产品发布/带货/快节奏混剪/功能讲解；这些用别的格式更合适。
 - 用户要求使用《卡萨布兰卡》《花样年华》等仍受版权保护的片段，且没有授权。先说明风险，改用公版片或让用户提供授权素材。
 - 用户想要 9:16 竖屏正片。本模板是 16:9 正片 + 3:4 封面；竖屏需要重新做布局，不能直接裁。
 
@@ -36,13 +47,16 @@ metadata:
 | 声音 | 旁白 + 原创配乐 + 雨声，约 −15 LUFS，真峰值 ≤ −1.5 dBFS |
 | 字幕 | 烧录在画面内，另出 `.srt` |
 | 交付 | MP4、SRT、3:4 封面、发布文案、素材来源、可编辑工程 |
+| 客户确认 | Brief → First still → Final 三个确认点 |
 
-## 母版位置
+## 母版位置（reference implementation）
 
-参考母版（不随仓库分发）：
+参考母版（不随仓库分发；只作为资产/结构参考）：
 
 - 本机开发时：`~/Desktop/自媒体/good-people-wrong-person`
-- 其他机器：用 `--ref` 指向你自己的母版工程
+- 其他机器：用 `--ref` 指向你自己的 master 工程
+
+**新一期不要默认沿用母版的素材。** 用 `--ref` 只是为了拿 `vendor/`、字体、纹理和一条占位音轨；电影、肖像、静帧、文案、声音都要按客户 brief 换。
 
 母版包含：
 - `index.html`：201.37 秒成片的完整 huashu-motion 合成。
@@ -64,18 +78,24 @@ $SKILL/scripts/new_episode.sh my-episode-slug --base "$HOME/relationship-films"
 
 脚本会：
 1. 在 `$BASE_DIR/my-episode-slug` 建新工程（默认 `$HOME/relationship-films`，可用 `--base` 改）；
-2. 复制母版的 `index.html`、`cover/cover.html`、`vendor/`、电影片段、静帧、肖像、字体、纹理；
+2. 复制 **skill 的最新模板代码**（`index.html`、`cover/cover.html`），再从母版复制 `vendor/`、字体、纹理和一套**起始素材**；
 3. 复制母版 `assets/score.wav` 作为**占位音轨**（页面能先跑起来）；
-4. 生成 `BRIEF.md`、`文稿.txt`、`字幕.srt`、`treatment.md`、`素材来源.md`、`发布文案.md` 的空模板；
-5. 打印下一步和需要替换的文本槽。
+4. 生成 `BRIEF.md`、`文稿.txt`、`字幕.srt`、`treatment.md`、`素材来源.md`、`发布文案.md`、`assets.manifest.json` 模板；
+5. 创建 `assets/imported/`，打印下一步和需要替换的文本/素材槽。
 
 然后按下面的流水线做。**不要跳过写新旁白和新字幕这一步。**
 
 ## 流水线
 
-### 0. 读需求，锁结构
+### 0. 读客户 brief，锁内容 + 素材
 
-先读 `references/beat-sheet.md`，把新主题放进 16 个叙事节拍里。不要先写满 3 分钟再硬塞画面；先定“钩子—具体故事—概念区分—哲学/心理视角—伦理转折—自省—行动—收束”。
+先读 `references/client-brief.md`，把客户要求压成 10 行内容计划：
+
+```
+受众 / 平台 / 时长 / 一句话主题 / 钩子问题 / 两个概念 / 思想或心理视角 / 伦理转折 / 一句小话 / 素材模式与来源
+```
+
+再读 `references/beat-sheet.md`，把主题放进 16 个叙事节拍里。素材模式在写旁白前就要定：客户实拍 / 公版电影 / 授权 stock / 照片 / 纯文字 / 混合。不要先写满 3 分钟再问客户要素材。
 
 默认结构：
 1. 钩子（一个问题）
@@ -155,14 +175,25 @@ $SKILL/scripts/new_episode.sh my-episode-slug --base "$HOME/relationship-films"
 
 不要保留母版的旧文案。新一期如果出现“亚里士多德/弗洛伊德/康德”以外的思想家，必须重新核验出处，并在画面里标注“释义/应用”，不要伪造直接引语。
 
-### 6. 换片源（可选）
+### 6. 素材替换（按客户要求，必做）
 
-母版用的是《第七天堂》(1927)。新一期可以：
-- 继续用同一部公版片，保持系列感；
-- 换另一部公版经典爱情片，按 `references/rights-and-ethics.md` 核验来源、去音轨、补帧、抽静帧；
-- 用户提供已授权片段时，优先用用户的素材，保留片名/年份/“非真实案例”标识。
+母版用的是《第七天堂》(1927)，但这只是参考实现。按 `references/asset-strategy.md` 选模式：
 
-不要用《卡萨布兰卡》《罗马假日》《花样年华》等仍受版权保护的片段，除非用户提供明确授权。
+- **客户实拍/照片/产品/门店**：优先；写清授权/肖像同意；人脸保持真实，别过度磨皮；产品只作为“关系中的物”，不要做成硬广。
+- **公版电影**：可以继续《第七天堂》，也可以换 1–3 部公版片；去音轨、补帧、抽静帧、逐片标注。
+- **授权 stock**：保留 license/订单；不要用带水印预览。
+- **照片/档案/肖像**：标明照片/雕像/绘画；公版或客户授权；不要 AI 生成冒充历史人物。
+- **纯文字/图形**：没有 footage 时，让字和留白成为画面；不要硬塞电影。
+- **混合**：最多 2–3 种来源；一套 grade、一套字、每源 credit。
+
+替换后必须：
+1. 改 `data-asset-slot` 对应的 `src`；
+2. 用 `ffprobe` 重算视频窗口；
+3. 重抽静帧；
+4. 改 `#credit`、`#credits .cols`、`素材来源.md`；
+5. 跑 `python3 scripts/asset_report.py --manifest assets.manifest.json --project .`。
+
+不要用《卡萨布兰卡》《罗马假日》《花样年华》等仍受版权保护的片段，除非客户提供明确书面授权。
 
 ### 7. 检查、渲染、审片
 
@@ -208,23 +239,27 @@ my-episode-slug/output/
 
 1. **新旁白**：新一期必须有新录/新生成的旁白；不能拿母版 194 秒音频对上新字幕。
 2. **新文本**：`index.html` 中不能残留母版的成句文案；用 `references/text-slots.md` 逐项过。
-3. **版权**：电影片段、肖像、音乐、声音都有来源记录；片名/年份/非真实案例标识在画面里。
+3. **版权/素材**：电影、客户素材、stock、肖像、音乐、声音都有来源/授权记录；每个来源都有 credit；片名/年份/非真实案例标识在画面里。
 4. **伦理**：不诊断、不责怪受害者、不伪造哲学家原话、不把电影角色当真实案例。
-5. **画面**：没有文字被裁、没有单字孤行、没有文字压字幕、结尾两个人都在伞下（如果本期仍用伞的隐喻）。
+5. **画面**：没有文字被裁、没有单字孤行、没有文字压字幕；如果本期仍用伞的隐喻，结尾两个人都在伞下。
 6. **声音**：旁白清楚、无削波、无意外静音；`--silent` 渲染保留自定义音轨。
 7. **审片**：独立冷审的 MUST-FIX 已修，或明确记录为什么保留。
 
 ## 不要做
 
 - 不要把母版的旧文案、旧字幕、旧旁白直接复用。
+- 不要把《第七天堂》/弗洛伊德/亚里士多德/康德当成固定素材；客户不需要时不要硬塞。
 - 不要把所有场景都改成同一张图 + 同一段字；母版的场景语法是有变化的。
 - 不要用蓝紫渐变、霓虹、AI 味星空底。
 - 不要在 3:4 封面里直接裁 16:9 正片；用 `cover/cover.html` 重新排。
-- 不要把哲学家的话写成“名言”并加引号；用“他讨论过/一种理解角度”。
+- 不要把哲学家/专家的话写成“名言”并加引号；用“他讨论过/一种理解角度”。
+- 不要在客户没授权时使用版权片、客户人脸、聊天记录或未公开产品。
 - 不要用“吸渣体质”“恋爱脑”这类诊断式标签做标题；用问题，不用判决。
 
 ## 文件地图
 
+- `references/client-brief.md`：客户 brief、内容矩阵、确认点。
+- `references/asset-strategy.md`：客户实拍/公版/stock/照片/纯文字/混合，多源统一、素材槽、manifest。
 - `references/beat-sheet.md`：16 拍结构、比例、画面事件、文案功能。
 - `references/visual-system.md`：色板、字体、镜头、伞/雨、声音、封面。
 - `references/text-slots.md`：逐项替换清单。
@@ -233,8 +268,10 @@ my-episode-slug/output/
 - `references/publishing.md`：标题、长文案、短文案、B站简介、置顶评论、标签。
 - `templates/index.template.html`：母版合成。
 - `templates/cover-3x4.template.html`：3:4 封面。
+- `templates/assets.manifest.example.json`：素材清单模板。
 - `scripts/new_episode.sh`：建新工程。
 - `scripts/prepare_media.sh`：补帧、抽静帧、检查片源。
 - `scripts/render.sh`：带 `--silent` 的渲染封装。
 - `scripts/render_cover.sh`：把 `cover/cover.html` 渲染成 1080×1440 PNG/JPG。
 - `scripts/verify.sh`：check/qa/ffprobe/解码/响度。
+- `scripts/asset_report.py`：检查素材 manifest 的文件/权利/credit/scenes。

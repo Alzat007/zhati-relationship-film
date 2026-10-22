@@ -1,0 +1,68 @@
+{
+  "episode": "client-slug",
+  "visual_mode": "mixed",
+  "duration_target": 180,
+  "voice": {
+    "mode": "client_recording",
+    "path": "assets/voice.wav",
+    "rights": "client-owned",
+    "credit": "客户提供旁白"
+  },
+  "music": {
+    "mode": "original",
+    "path": "assets/score.wav",
+    "rights": "original",
+    "credit": "原创配乐"
+  },
+  "assets": [
+    {
+      "slot": "clip_01",
+      "type": "client_video",
+      "path": "assets/imported/client_a.mp4",
+      "source": "客户提供",
+      "rights": "client-owned",
+      "credit": "画面由客户提供",
+      "media_start": 0,
+      "duration": 8,
+      "scenes": ["hook", "umbrella"]
+    },
+    {
+      "slot": "clip_02",
+      "type": "public_domain_film",
+      "path": "assets/imported/film_b.mp4",
+      "source": "Wikimedia Commons",
+      "rights": "Public Domain (US / CN; check territory)",
+      "credit": "《示例影片》1927 · 非真实案例",
+      "media_start": 12.5,
+      "duration": 6,
+      "scenes": ["distinction"]
+    },
+    {
+      "slot": "still_couple",
+      "type": "client_photo",
+      "path": "assets/imported/couple.jpg",
+      "source": "客户提供",
+      "rights": "client-owned",
+      "credit": "画面由客户提供",
+      "scenes": ["distinction", "reflection"]
+    },
+    {
+      "slot": "portrait_1",
+      "type": "public_domain_portrait",
+      "path": "assets/imported/portrait.jpg",
+      "source": "Wikimedia Commons",
+      "rights": "Public Domain",
+      "credit": "作者/年代 · Wikimedia Commons · Public Domain",
+      "scenes": ["aristotle"]
+    },
+    {
+      "slot": "cover_bg",
+      "type": "client_photo",
+      "path": "assets/imported/cover.jpg",
+      "source": "客户提供",
+      "rights": "client-owned",
+      "credit": "封面图：客户提供",
+      "scenes": ["cover"]
+    }
+  ]
+}

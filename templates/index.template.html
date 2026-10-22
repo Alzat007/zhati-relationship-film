@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- ASSET-AGNOSTIC TEMPLATE: clip_01..clip_11, mirror_clip, still_*, portrait_*, cover_bg are reference asset slots. Replace them per client brief; update all credits. See references/asset-strategy.md. -->
 <!-- REFERENCE TEMPLATE: replace every text slot (see references/text-slots.md) and the audio before shipping. Do not reuse the old narration. -->
 <html lang="zh-CN" data-composition-variables='[
   {"id":"filmTitle","type":"string","label":"片名","default":"为什么有些好人，会和错的人交往？"},
@@ -352,17 +353,17 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
   <audio id="score" src="assets/score.wav" data-start="0" data-duration="198.366667" data-track-index="9" data-volume="1"></audio>
 
   <div id="filmbase" aria-hidden="true">
-    <div class="clip c1" id="c1"><video id="v01" data-start="0" data-duration="23.8" data-media-start="0" data-playback-rate="0.28" data-track-index="1" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
-    <div class="clip c2" id="c2"><video id="v02" data-start="23.2" data-duration="15.6" data-media-start="0" data-playback-rate="0.86" data-track-index="2" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
-    <div class="clip c3" id="c3"><video id="v03" data-start="38.3" data-duration="17.2" data-media-start="0" data-playback-rate="0.405" data-track-index="3" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
-    <div class="clip c4" id="c4"><video id="v04" data-start="55.0" data-duration="13.5" data-media-start="0" data-playback-rate="0.75" data-track-index="4" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
-    <div class="clip c5" id="c5"><video id="v05" data-start="68.0" data-duration="32.7" data-media-start="0" data-playback-rate="0.31" data-track-index="5" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
-    <div class="clip c6" id="c6"><video id="v06" data-start="93.2" data-duration="26.9" data-media-start="0" data-playback-rate="0.5" data-track-index="6" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
-    <div class="clip c7" id="c7"><video id="v07" data-start="120.0" data-duration="18.1" data-media-start="4.0" data-playback-rate="0.5" data-track-index="7" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
-    <div class="clip c8" id="c8"><video id="v08" data-start="137.6" data-duration="17.9" data-media-start="0" data-playback-rate="0.39" data-track-index="8" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
-    <div class="clip c9" id="c9"><video id="v09" data-start="155.0" data-duration="12.8" data-media-start="0" data-playback-rate="0.80" data-track-index="10" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
-    <div class="clip c10" id="c10"><video id="v10" data-start="167.4" data-duration="16.9" data-media-start="2.0" data-playback-rate="0.68" data-track-index="11" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
-    <div class="clip c11" id="c11"><video id="v11" data-start="184.0" data-duration="14.4" data-media-start="0" data-playback-rate="0.47" data-track-index="12" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c1" id="c1"><video id="v01" data-asset-slot="clip_01" data-start="0" data-duration="23.8" data-media-start="0" data-playback-rate="0.28" data-track-index="1" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c2" id="c2"><video id="v02" data-asset-slot="clip_02" data-start="23.2" data-duration="15.6" data-media-start="0" data-playback-rate="0.86" data-track-index="2" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c3" id="c3"><video id="v03" data-asset-slot="clip_03" data-start="38.3" data-duration="17.2" data-media-start="0" data-playback-rate="0.405" data-track-index="3" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c4" id="c4"><video id="v04" data-asset-slot="clip_04" data-start="55.0" data-duration="13.5" data-media-start="0" data-playback-rate="0.75" data-track-index="4" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
+    <div class="clip c5" id="c5"><video id="v05" data-asset-slot="clip_05" data-start="68.0" data-duration="32.7" data-media-start="0" data-playback-rate="0.31" data-track-index="5" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
+    <div class="clip c6" id="c6"><video id="v06" data-asset-slot="clip_06" data-start="93.2" data-duration="26.9" data-media-start="0" data-playback-rate="0.5" data-track-index="6" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c7" id="c7"><video id="v07" data-asset-slot="clip_07" data-start="120.0" data-duration="18.1" data-media-start="4.0" data-playback-rate="0.5" data-track-index="7" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c8" id="c8"><video id="v08" data-asset-slot="clip_08" data-start="137.6" data-duration="17.9" data-media-start="0" data-playback-rate="0.39" data-track-index="8" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
+    <div class="clip c9" id="c9"><video id="v09" data-asset-slot="clip_09" data-start="155.0" data-duration="12.8" data-media-start="0" data-playback-rate="0.80" data-track-index="10" muted playsinline src="assets/movies/movie_03.mp4"></video></div>
+    <div class="clip c10" id="c10"><video id="v10" data-asset-slot="clip_10" data-start="167.4" data-duration="16.9" data-media-start="2.0" data-playback-rate="0.68" data-track-index="11" muted playsinline src="assets/movies/movie_02.mp4"></video></div>
+    <div class="clip c11" id="c11"><video id="v11" data-asset-slot="clip_11" data-start="184.0" data-duration="14.4" data-media-start="0" data-playback-rate="0.47" data-track-index="12" muted playsinline src="assets/movies/movie_01.mp4"></video></div>
     <div class="grade"></div>
   </div>
 
@@ -426,7 +427,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
       <div class="frames">
         <div class="frame" id="frameKind">
           <div class="tag">01 / KINDNESS</div>
-          <div class="mat"><div class="ph"><img src="assets/stills/woman.jpg" alt=""></div></div>
+          <div class="mat"><div class="ph"><img data-asset-slot="still_woman" src="assets/stills/woman.jpg" alt=""></div></div>
           <div class="label">
             <div class="zh">善良</div>
             <div class="en">HOW YOU TREAT THE OTHER</div>
@@ -435,7 +436,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
         </div>
         <div class="frame" id="frameFit">
           <div class="tag">02 / FIT</div>
-          <div class="mat"><div class="ph"><img src="assets/stills/couple.jpg" alt=""></div></div>
+          <div class="mat"><div class="ph"><img data-asset-slot="still_couple" src="assets/stills/couple.jpg" alt=""></div></div>
           <div class="label">
             <div class="zh">合适</div>
             <div class="en">HOW YOU TREAT EACH OTHER</div>
@@ -454,15 +455,15 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
 
     <!-- aristotle -->
     <section id="aristotle" class="scene" data-om-id="aristotle">
-      <div id="ariPortrait"><img src="assets/portraits/aristotle.jpg" alt=""></div>
+      <div id="ariPortrait"><img data-asset-slot="portrait_aristotle" src="assets/portraits/aristotle.jpg" alt=""></div>
       <div class="ariCaption">
         <div class="zh">亚里士多德</div>
         <div class="en">ARISTOTLE · ON FRIENDSHIP<br>Nicomachean Ethics VIII.2<br>Photo: Jastrow (2006) · Public Domain</div>
       </div>
       <div id="reciprocity">
         <div class="diagramTitle">相互的善意 · MUTUAL GOODWILL</div>
-        <div class="recFrame" id="recL"><img src="assets/stills/woman.jpg" alt=""><div class="recLabel">你希望对方好</div></div>
-        <div class="recFrame" id="recR"><img src="assets/stills/couple.jpg" alt=""><div class="recLabel">并且知道，对方也希望你好</div></div>
+        <div class="recFrame" id="recL"><img data-asset-slot="still_woman" src="assets/stills/woman.jpg" alt=""><div class="recLabel">你希望对方好</div></div>
+        <div class="recFrame" id="recR"><img data-asset-slot="still_couple" src="assets/stills/couple.jpg" alt=""><div class="recLabel">并且知道，对方也希望你好</div></div>
         <svg id="recArrows" viewBox="0 0 1220 540">
           <defs>
             <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9955a"/></marker>
@@ -495,7 +496,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
 
     <!-- question -->
     <section id="question" class="scene" data-om-id="question">
-      <div id="qSmallFrame"><img src="assets/stills/couple.jpg" alt=""></div>
+      <div id="qSmallFrame"><img data-asset-slot="still_couple" src="assets/stills/couple.jpg" alt=""></div>
       <div id="qText">
         <div class="pre">可为什么</div>
         <div class="big line"><span>有时我们已经很难过，</span></div>
@@ -507,7 +508,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
     <!-- freud -->
     <section id="freud" class="scene" data-om-id="freud">
       <div id="freudCard">
-        <div class="cardMat"><div class="photo"><img src="assets/portraits/freud.jpg" alt=""><div id="freudSweep"></div></div></div>
+        <div class="cardMat"><div class="photo"><img data-asset-slot="portrait_freud" src="assets/portraits/freud.jpg" alt=""><div id="freudSweep"></div></div></div>
         <div class="cardCap">Sigmund Freud, c.1921<br>Max Halberstadt · Wikimedia Commons · Public Domain</div>
       </div>
       <div id="freudText">
@@ -526,9 +527,9 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
           <path d="M380 612 C250 610 170 520 160 420" fill="none" stroke="rgba(201,149,90,.5)" stroke-width="1.4" stroke-dasharray="2 7"/>
           <path d="M160 420 l-8 18 l20 -6" fill="none" stroke="rgba(201,149,90,.6)" stroke-width="1.4"/>
         </svg>
-        <div class="loopCard" id="loopC1"><div class="num">01</div><img src="assets/stills/man.jpg" alt=""></div>
-        <div class="loopCard" id="loopC2"><div class="num">02</div><img src="assets/stills/woman.jpg" alt=""></div>
-        <div class="loopCard" id="loopC3"><div class="num">03</div><img src="assets/stills/couple.jpg" alt=""></div>
+        <div class="loopCard" id="loopC1"><div class="num">01</div><img data-asset-slot="still_man" src="assets/stills/man.jpg" alt=""></div>
+        <div class="loopCard" id="loopC2"><div class="num">02</div><img data-asset-slot="still_woman" src="assets/stills/woman.jpg" alt=""></div>
+        <div class="loopCard" id="loopC3"><div class="num">03</div><img data-asset-slot="still_couple" src="assets/stills/couple.jpg" alt=""></div>
         <div id="loopCenter">相似的过程<br>相似的结局</div>
       </div>
       <div id="patternText">
@@ -582,7 +583,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
     <section id="mirrorScene" class="scene" data-om-id="reflection">
       <div class="sceneScrim left"></div>
       <div id="mirror">
-        <video id="v07m" data-start="120.2" data-duration="17.6" data-media-start="4.0" data-playback-rate="0.5" data-track-index="20" muted playsinline src="assets/movies/movie_02.mp4"></video>
+        <video id="v07m" data-asset-slot="mirror_clip" data-start="120.2" data-duration="17.6" data-media-start="4.0" data-playback-rate="0.5" data-track-index="20" muted playsinline src="assets/movies/movie_02.mp4"></video>
         <div id="mirrorGhost"></div><div id="mirrorGlass"></div><div id="mirrorDust"></div>
       </div>
       <div id="mirrorText">
@@ -604,7 +605,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
 
     <!-- kant -->
     <section id="kant" class="scene" data-om-id="kant">
-      <div id="kantCard"><img src="assets/portraits/kant.jpg" alt=""></div>
+      <div id="kantCard"><img data-asset-slot="portrait_kant" src="assets/portraits/kant.jpg" alt=""></div>
       <div id="kantCap">Immanuel Kant, c.1790<br>Artist unknown · Wikimedia Commons · Public Domain</div>
       <div class="bar" id="barA"></div><div class="bar" id="barB"></div>
       <div id="kantText">
@@ -717,6 +718,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;}
 
   <div id="subveil"></div>
   <div id="subs" aria-live="polite"></div>
+  <!-- SOURCE CREDIT: replace per asset; see references/asset-strategy.md -->
   <div id="credit"><span class="cn">电影画面《第七天堂》1927 · 非真实案例</span><br>7th Heaven · Frank Borzage · Public Domain (US / CN)</div>
   <div id="burnEdge"></div>
   <div id="flash"></div>
