@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.1 — 2026-10-23
+
+- 修正 `om` 解析顺序：优先本机 `omx` 包装脚本，再回退到 huashu-motion 的裸 `bin/om`，避免在没有 Node 环境时 `render.sh` / `render_cover.sh` / `verify.sh` 失败。
+- 已在 1080p stock 版成片与 3:4 封面上验证。
+
 ## v1.2.0 — 2026-10-22
 
 - AI 可联网搜索免费背景视频：新增 `references/stock-sources.md`、`scripts/stock_search.py`、`scripts/fetch_stock.py`。

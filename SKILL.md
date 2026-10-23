@@ -3,7 +3,7 @@ name: zhati-relationship-film
 description: "生成扎提风格的 3 分钟中文男女关系/爱情影像随笔：素材可按客户要求随时替换（客户实拍、公版电影、AI 联网找的免费 stock、照片、纯文字、混合），雨伞/雨/胶片视觉脊柱、宋体动效、3:4 封面。Use when the user asks for a relationship/love essay video, a client-customized episode, or a new episode in the style of 《好人与错的人》."
 metadata:
   author: "zhati"
-  version: "1.2.0"
+  version: "1.2.1"
   based_on: "good-people-wrong-person · 2026-10-22"
 ---
 

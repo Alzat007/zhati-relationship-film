@@ -192,6 +192,7 @@ scripts/
 
 ## 版本
 
+- **v1.2.1**：修正 `om` 解析顺序，优先本机 `omx` 包装脚本；渲染/封面/验收脚本在无 Node 环境时不再误用裸 `bin/om`。
 - **v1.2.0**：AI 可联网搜索免费背景视频（Mixkit/Coverr/Pexels/Pixabay），新增 `stock_search.py`、`fetch_stock.py` 和 stock 授权指南；下载后自动去音轨/标准化/写 manifest。
 - **v1.1.0**：素材/内容可按客户要求替换；新增 client brief、asset strategy、素材 manifest、asset_report、模板 `data-asset-slot`；脚手架改为“最新模板代码 + master 起始素材”。
 - **v1.0.0**：首个公开版本。

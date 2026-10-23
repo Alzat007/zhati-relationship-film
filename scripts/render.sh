@@ -11,10 +11,10 @@ OM="${OM:-}"
 if [[ -z "$OM" || ! -x "$OM" ]]; then
   if command -v om >/dev/null 2>&1; then
     OM="$(command -v om)"
-  elif [[ -x "$HOME/.agents/skills/huashu-motion/bin/om" ]]; then
-    OM="$HOME/.agents/skills/huashu-motion/bin/om"
   elif [[ -x "$HOME/Desktop/自媒体/omx" ]]; then
     OM="$HOME/Desktop/自媒体/omx"
+  elif [[ -x "$HOME/.agents/skills/huashu-motion/bin/om" ]]; then
+    OM="$HOME/.agents/skills/huashu-motion/bin/om"
   else
     echo "error: om not found. Install huashu-motion or set OM=/path/to/om." >&2
     exit 1
